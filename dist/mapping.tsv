@@ -1,0 +1,65 @@
+value	char	codepoint	class	symbol	color	hatch	fill	glyph	svg	urlsafe_alias
+0	A	U+0041	Shapes	Cross	White	No fill	none	cross.none	u0041.svg	
+1	B	U+0042	Shapes	Circle	White	No fill	none	circle.none	u0042.svg	
+2	C	U+0043	Shapes	Triangle	White	No fill	none	triangle.none	u0043.svg	
+3	D	U+0044	Shapes	Square	White	No fill	none	square.none	u0044.svg	
+4	E	U+0045	Suits	Clubs	White	No fill	none	clubs.none	u0045.svg	
+5	F	U+0046	Suits	Diamonds	White	No fill	none	diamonds.none	u0046.svg	
+6	G	U+0047	Suits	Hearts	White	No fill	none	hearts.none	u0047.svg	
+7	H	U+0048	Suits	Spades	White	No fill	none	spades.none	u0048.svg	
+8	I	U+0049	Elements	Drop	White	No fill	none	drop.none	u0049.svg	
+9	J	U+004A	Elements	Flame	White	No fill	none	flame.none	u004A.svg	
+10	K	U+004B	Elements	Cloud	White	No fill	none	cloud.none	u004B.svg	
+11	L	U+004C	Elements	Ingot	White	No fill	none	ingot.none	u004C.svg	
+12	M	U+004D	Powers	Mushroom	White	No fill	none	mushroom.none	u004D.svg	
+13	N	U+004E	Powers	Flower	White	No fill	none	flower.none	u004E.svg	
+14	O	U+004F	Powers	Star	White	No fill	none	star.none	u004F.svg	
+15	P	U+0050	Powers	Moon	White	No fill	none	moon.none	u0050.svg	
+16	Q	U+0051	Shapes	Cross	Black	Total fill	solid	cross.solid	u0051.svg	
+17	R	U+0052	Shapes	Circle	Black	Total fill	solid	circle.solid	u0052.svg	
+18	S	U+0053	Shapes	Triangle	Black	Total fill	solid	triangle.solid	u0053.svg	
+19	T	U+0054	Shapes	Square	Black	Total fill	solid	square.solid	u0054.svg	
+20	U	U+0055	Suits	Clubs	Black	Total fill	solid	clubs.solid	u0055.svg	
+21	V	U+0056	Suits	Diamonds	Black	Total fill	solid	diamonds.solid	u0056.svg	
+22	W	U+0057	Suits	Hearts	Black	Total fill	solid	hearts.solid	u0057.svg	
+23	X	U+0058	Suits	Spades	Black	Total fill	solid	spades.solid	u0058.svg	
+24	Y	U+0059	Elements	Drop	Black	Total fill	solid	drop.solid	u0059.svg	
+25	Z	U+005A	Elements	Flame	Black	Total fill	solid	flame.solid	u005A.svg	
+26	a	U+0061	Elements	Cloud	Black	Total fill	solid	cloud.solid	u0061.svg	
+27	b	U+0062	Elements	Ingot	Black	Total fill	solid	ingot.solid	u0062.svg	
+28	c	U+0063	Powers	Mushroom	Black	Total fill	solid	mushroom.solid	u0063.svg	
+29	d	U+0064	Powers	Flower	Black	Total fill	solid	flower.solid	u0064.svg	
+30	e	U+0065	Powers	Star	Black	Total fill	solid	star.solid	u0065.svg	
+31	f	U+0066	Powers	Moon	Black	Total fill	solid	moon.solid	u0066.svg	
+32	g	U+0067	Shapes	Cross	Blue	Dots	dots	cross.dots	u0067.svg	
+33	h	U+0068	Shapes	Circle	Blue	Dots	dots	circle.dots	u0068.svg	
+34	i	U+0069	Shapes	Triangle	Blue	Dots	dots	triangle.dots	u0069.svg	
+35	j	U+006A	Shapes	Square	Blue	Dots	dots	square.dots	u006A.svg	
+36	k	U+006B	Suits	Clubs	Blue	Dots	dots	clubs.dots	u006B.svg	
+37	l	U+006C	Suits	Diamonds	Blue	Dots	dots	diamonds.dots	u006C.svg	
+38	m	U+006D	Suits	Hearts	Blue	Dots	dots	hearts.dots	u006D.svg	
+39	n	U+006E	Suits	Spades	Blue	Dots	dots	spades.dots	u006E.svg	
+40	o	U+006F	Elements	Drop	Blue	Dots	dots	drop.dots	u006F.svg	
+41	p	U+0070	Elements	Flame	Blue	Dots	dots	flame.dots	u0070.svg	
+42	q	U+0071	Elements	Cloud	Blue	Dots	dots	cloud.dots	u0071.svg	
+43	r	U+0072	Elements	Ingot	Blue	Dots	dots	ingot.dots	u0072.svg	
+44	s	U+0073	Powers	Mushroom	Blue	Dots	dots	mushroom.dots	u0073.svg	
+45	t	U+0074	Powers	Flower	Blue	Dots	dots	flower.dots	u0074.svg	
+46	u	U+0075	Powers	Star	Blue	Dots	dots	star.dots	u0075.svg	
+47	v	U+0076	Powers	Moon	Blue	Dots	dots	moon.dots	u0076.svg	
+48	w	U+0077	Shapes	Cross	Red	Line	lines	cross.lines	u0077.svg	
+49	x	U+0078	Shapes	Circle	Red	Line	lines	circle.lines	u0078.svg	
+50	y	U+0079	Shapes	Triangle	Red	Line	lines	triangle.lines	u0079.svg	
+51	z	U+007A	Shapes	Square	Red	Line	lines	square.lines	u007A.svg	
+52	0	U+0030	Suits	Clubs	Red	Line	lines	clubs.lines	u0030.svg	
+53	1	U+0031	Suits	Diamonds	Red	Line	lines	diamonds.lines	u0031.svg	
+54	2	U+0032	Suits	Hearts	Red	Line	lines	hearts.lines	u0032.svg	
+55	3	U+0033	Suits	Spades	Red	Line	lines	spades.lines	u0033.svg	
+56	4	U+0034	Elements	Drop	Red	Line	lines	drop.lines	u0034.svg	
+57	5	U+0035	Elements	Flame	Red	Line	lines	flame.lines	u0035.svg	
+58	6	U+0036	Elements	Cloud	Red	Line	lines	cloud.lines	u0036.svg	
+59	7	U+0037	Elements	Ingot	Red	Line	lines	ingot.lines	u0037.svg	
+60	8	U+0038	Powers	Mushroom	Red	Line	lines	mushroom.lines	u0038.svg	
+61	9	U+0039	Powers	Flower	Red	Line	lines	flower.lines	u0039.svg	
+62	+	U+002B	Powers	Star	Red	Line	lines	star.lines	u002B.svg	-
+63	/	U+002F	Powers	Moon	Red	Line	lines	moon.lines	u002F.svg	_

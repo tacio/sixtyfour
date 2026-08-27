@@ -1,0 +1,66 @@
+Unicode	Value	Char	Class	Symbol	Color	Hatch	Status
+41	0	A	Shapes	Cross	White	No fill	svg created
+42	1	B	Shapes	Circle	White	No fill	svg created
+43	2	C	Shapes	Triangle	White	No fill	
+44	3	D	Shapes	Square	White	No fill	
+45	4	E	Suits	Clubs	White	No fill	svg created
+46	5	F	Suits	Diamonds	White	No fill	svg created
+47	6	G	Suits	Hearts	White	No fill	svg created
+48	7	H	Suits	Spades	White	No fill	
+49	8	I	Elements	Drop	White	No fill	svg created
+4A	9	J	Elements	Flame	White	No fill	svg created
+4B	10	K	Elements	Cloud	White	No fill	svg created
+4C	11	L	Elements	Ingot	White	No fill	
+4D	12	M	Powers	Mushroom	White	No fill	
+4E	13	N	Powers	Flower	White	No fill	
+4F	14	O	Powers	Star	White	No fill	
+50	15	P	Powers	Moon	White	No fill	
+51	16	Q	Shapes	Cross	Black	Total fill	svg created
+52	17	R	Shapes	Circle	Black	Total fill	svg created
+53	18	S	Shapes	Triangle	Black	Total fill	
+54	19	T	Shapes	Square	Black	Total fill	
+55	20	U	Suits	Clubs	Black	Total fill	svg created
+56	21	V	Suits	Diamonds	Black	Total fill	svg created
+57	22	W	Suits	Hearts	Black	Total fill	svg created
+58	23	X	Suits	Spades	Black	Total fill	
+59	24	Y	Elements	Drop	Black	Total fill	svg created
+5A	25	Z	Elements	Flame	Black	Total fill	svg created
+61	26	a	Elements	Cloud	Black	Total fill	svg created
+62	27	b	Elements	Ingot	Black	Total fill	
+63	28	c	Powers	Mushroom	Black	Total fill	
+64	29	d	Powers	Flower	Black	Total fill	
+65	30	e	Powers	Star	Black	Total fill	
+66	31	f	Powers	Moon	Black	Total fill	
+67	32	g	Shapes	Cross	Blue	Dots	svg created
+68	33	h	Shapes	Circle	Blue	Dots	svg created
+69	34	i	Shapes	Triangle	Blue	Dots	
+6A	35	j	Shapes	Square	Blue	Dots	
+6B	36	k	Suits	Clubs	Blue	Dots	svg created
+6C	37	l	Suits	Diamonds	Blue	Dots	svg created
+6D	38	m	Suits	Hearts	Blue	Dots	svg created
+6E	39	n	Suits	Spades	Blue	Dots	
+6F	40	o	Elements	Drop	Blue	Dots	svg created
+70	41	p	Elements	Flame	Blue	Dots	svg created
+71	42	q	Elements	Cloud	Blue	Dots	svg created
+72	43	r	Elements	Ingot	Blue	Dots	
+73	44	s	Powers	Mushroom	Blue	Dots	
+74	45	t	Powers	Flower	Blue	Dots	
+75	46	u	Powers	Star	Blue	Dots	
+76	47	v	Powers	Moon	Blue	Dots	
+77	48	w	Shapes	Cross	Red	Line	svg created
+78	49	x	Shapes	Circle	Red	Line	svg created
+79	50	y	Shapes	Triangle	Red	Line	
+7A	51	z	Shapes	Square	Red	Line	
+30	52	0	Suits	Clubs	Red	Line	svg created
+31	53	1	Suits	Diamonds	Red	Line	svg created
+32	54	2	Suits	Hearts	Red	Line	svg created
+33	55	3	Suits	Spades	Red	Line	
+34	56	4	Elements	Drop	Red	Line	svg created
+35	57	5	Elements	Flame	Red	Line	svg created
+36	58	6	Elements	Cloud	Red	Line	svg created
+37	59	7	Elements	Ingot	Red	Line	
+38	60	8	Powers	Mushroom	Red	Line	
+39	61	9	Powers	Flower	Red	Line	
+002B	62	+	Powers	Star	Red	Line	
+002F	63	/	Powers	Moon	Red	Line	
+003D	-	=					

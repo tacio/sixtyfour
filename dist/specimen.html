@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sixty Four Alphabet</title>
+<meta name="description" content="Renders base64 as 64 symbols a person can identify, describe out loud, and compare by eye. Every symbol is encoded twice over -- by colour and by hatch -- so it survives greyscale printing and colour blindness.">
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+@font-face {
+  font-family: "Sixty Four";
+  src: url(data:font/woff2;base64,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) format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+.sixty-four {
+  font-family: "Sixty Four", ui-monospace, monospace;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
+  word-break: break-all;
+}
+@font-palette-values --sf-dark {
+  font-family: "Sixty Four";
+  base-palette: 1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .sixty-four { font-palette: --sf-dark; }
+}
+:root[data-theme="dark"] .sixty-four { font-palette: --sf-dark; }
+
+:root {
+  --paper:  #FBFAF7;
+  --raised: #FFFFFF;
+  --ink:    #1A1C22;
+  --muted:  #6C6E76;
+  --rule:   #E2E0D9;
+  --blue:   #1B4FD8;
+  --red:    #D42A20;
+}
+:root:not([data-theme="light"]) {
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:  #121419;
+    --raised: #1A1D24;
+    --ink:    #ECEBE6;
+    --muted:  #92949C;
+    --rule:   #2A2E37;
+    --blue:   #7FA8FF;
+    --red:    #FF7A6E;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper:  #121419;
+  --raised: #1A1D24;
+  --ink:    #ECEBE6;
+  --muted:  #92949C;
+  --rule:   #2A2E37;
+  --blue:   #7FA8FF;
+  --red:    #FF7A6E;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 28px 96px;
+}
+
+section { padding-block: 56px; border-top: 1px solid var(--rule); }
+section:first-of-type { border-top: 0; }
+
+h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 400; }
+h1 {
+  font-family: "Bodoni Moda", "Times New Roman", serif;
+  font-size: clamp(2.9rem, 7vw, 5.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+}
+h2 {
+  font-family: "Bodoni Moda", "Times New Roman", serif;
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.15;
+}
+h3 { font-size: 1rem; font-weight: 600; }
+
+p { margin: 0; max-width: 64ch; }
+.lede { font-size: 1.12rem; color: var(--muted); }
+
+.eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .72rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+
+.stack { display: flex; flex-direction: column; gap: 18px; }
+.stack-tight { display: flex; flex-direction: column; gap: 10px; }
+
+/* --- hero ---------------------------------------------------------------- */
+
+header.hero { padding: 72px 0 56px; }
+.hero-grid { display: flex; flex-direction: column; gap: 30px; }
+.hero-strip {
+  font-size: clamp(30px, 5.6vw, 62px);
+  line-height: 1.35;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.byline {
+  display: flex; flex-wrap: wrap; gap: 10px 26px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .8rem; color: var(--muted);
+}
+.byline b { color: var(--ink); font-weight: 600; }
+
+/* --- the matrix ---------------------------------------------------------- */
+
+.matrix-scroll { overflow-x: auto; padding-bottom: 8px; }
+table.matrix { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+table.matrix th {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .68rem; font-weight: 500; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 6px 4px; text-align: center; white-space: nowrap;
+}
+table.matrix th.row-head { text-align: right; padding-right: 14px; }
+table.matrix td { padding: 3px; }
+
+.cell {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  width: 62px; padding: 7px 0 5px;
+  background: var(--raised);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  cursor: default;
+  transition: border-color .12s ease, transform .12s ease;
+}
+.cell:hover, .cell:focus-visible {
+  border-color: var(--ink);
+  transform: translateY(-1px);
+  outline: none;
+}
+.cell .sym { font-size: 34px; line-height: 1; }
+.cell .meta {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .64rem; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.cell .meta b { color: var(--ink); font-weight: 600; }
+
+/* --- controls ------------------------------------------------------------ */
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 22px; }
+button.toggle {
+  font: inherit; font-size: .84rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  padding: 7px 15px;
+  color: var(--ink); background: var(--raised);
+  border: 1px solid var(--rule); border-radius: 999px;
+  cursor: pointer;
+  transition: border-color .12s ease, background .12s ease;
+}
+button.toggle:hover { border-color: var(--ink); }
+button.toggle:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+button.toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+.desaturated { filter: grayscale(1) contrast(1.08); }
+
+/* --- encoder ------------------------------------------------------------- */
+
+.encoder { display: grid; gap: 16px; }
+.encoder label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+.encoder input {
+  font: inherit; width: 100%; padding: 13px 16px;
+  color: var(--ink); background: var(--raised);
+  border: 1px solid var(--rule); border-radius: 4px;
+}
+.encoder input:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; border-color: transparent; }
+
+.readout {
+  background: var(--raised); border: 1px solid var(--rule); border-radius: 4px;
+  padding: 16px; min-height: 62px; overflow-wrap: anywhere;
+}
+.readout.raw { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .92rem; color: var(--muted); }
+.readout.symbols { font-size: 40px; line-height: 1.3; }
+
+/* --- decode walkthrough -------------------------------------------------- */
+
+.decode { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.step {
+  background: var(--raised); border: 1px solid var(--rule); border-radius: 4px;
+  padding: 20px; display: flex; flex-direction: column; gap: 8px;
+}
+.step .k {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+.step .v { font-size: 1.25rem; }
+.step .v.big { font-size: 52px; line-height: 1; }
+.step p { font-size: .88rem; color: var(--muted); }
+
+/* --- sizes --------------------------------------------------------------- */
+
+.sizes { display: flex; flex-direction: column; gap: 20px; }
+.size-row { display: flex; align-items: baseline; gap: 18px; }
+.size-row .tag {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .7rem; color: var(--muted); width: 46px; flex: none;
+  font-variant-numeric: tabular-nums;
+}
+.size-row .run { overflow-x: auto; white-space: nowrap; }
+
+/* --- code ---------------------------------------------------------------- */
+
+pre {
+  margin: 0; padding: 18px 20px; overflow-x: auto;
+  background: var(--raised); border: 1px solid var(--rule); border-radius: 4px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .84rem; line-height: 1.65;
+}
+code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .92em; }
+p code { background: var(--raised); border: 1px solid var(--rule); border-radius: 3px; padding: 1px 5px; }
+
+/* --- full table ---------------------------------------------------------- */
+
+.table-scroll { overflow-x: auto; max-height: 520px; overflow-y: auto; border: 1px solid var(--rule); border-radius: 4px; }
+table.full { border-collapse: collapse; width: 100%; font-size: .84rem; font-variant-numeric: tabular-nums; }
+table.full th {
+  position: sticky; top: 0; z-index: 1;
+  background: var(--raised); color: var(--muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 500;
+  text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--rule);
+}
+table.full td { padding: 8px 14px; border-bottom: 1px solid var(--rule); }
+table.full tr:last-child td { border-bottom: 0; }
+table.full td.sym { font-size: 26px; line-height: 1; width: 1%; }
+table.full td.mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.swatch { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+.swatch i { width: 9px; height: 9px; border-radius: 2px; border: 1px solid var(--rule); }
+
+footer {
+  border-top: 1px solid var(--rule); padding-top: 28px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .76rem; color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+</style>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-grid">
+      <div class="stack">
+        <p class="eyebrow">A typeface for base64</p>
+        <h1>Sixty four symbols<br>you can say out loud.</h1>
+        <p class="lede">Base64 is text no one can read. <code>aGVsbG8gd29ybGQ</code> cannot be
+        compared at a glance, dictated over a phone, or checked by eye. Sixty Four gives each of
+        the 64 characters a symbol instead &mdash; and encodes it twice, once as colour and once as
+        hatch, so it survives a black-and-white printer and colour blindness alike.</p>
+      </div>
+      <div class="hero-strip sixty-four" data-desaturable>U2l4dHkgRm91ciBtYWtlcyBiYXNlNjQgbGVnaWJsZS4=</div>
+      <div class="byline">
+        <span><b>64</b> symbols</span>
+        <span><b>16</b> shapes &times; <b>4</b> tiers</span>
+        <span><b>COLR</b> colour, with outline fallback</span>
+        <span><b>8.8 KB</b> woff2</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <p class="eyebrow">Try it</p>
+    <h2>Type anything.</h2>
+    <div class="encoder" style="margin-top:26px">
+      <div class="stack-tight">
+        <label for="sf-input">Your text</label>
+        <input id="sf-input" type="text" value="Sixty Four makes base64 legible." autocomplete="off" spellcheck="false">
+      </div>
+      <div class="stack-tight">
+        <label>As base64</label>
+        <div class="readout raw" id="sf-raw"></div>
+      </div>
+      <div class="stack-tight">
+        <label>As Sixty Four</label>
+        <div class="readout symbols sixty-four" id="sf-symbols" data-desaturable></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">The alphabet</p>
+    <h2>Four tiers, sixteen shapes.</h2>
+    <p class="lede" style="margin-top:14px">Every value decomposes cleanly:
+    <code>value = tier &times; 16 + class &times; 4 + shape</code>. Read the column for the shape,
+    the row for the tier, and you have the number.</p>
+    <div class="controls" style="margin-top:26px">
+      <button class="toggle" id="sf-grey" type="button" aria-pressed="false">Drop the colour</button>
+      <span class="eyebrow" style="margin:0">Hatch alone still separates all four tiers</span>
+    </div>
+    <div data-desaturable><div class="matrix-scroll"><table class="matrix"><thead><tr><th class="row-head"></th><th>Cross</th><th>Circle</th><th>Triangle</th><th>Square</th><th>Clubs</th><th>Diamonds</th><th>Hearts</th><th>Spades</th><th>Drop</th><th>Flame</th><th>Cloud</th><th>Ingot</th><th>Mushroom</th><th>Flower</th><th>Star</th><th>Moon</th></tr></thead><tbody><tr><th class="row-head">White<br>No fill</th><td><div class="cell" tabindex="0" title="A = 0 · Shapes / Cross · White / No fill"><span class="sym sixty-four">A</span><span class="meta"><b>A</b> 0</span></div></td><td><div class="cell" tabindex="0" title="B = 1 · Shapes / Circle · White / No fill"><span class="sym sixty-four">B</span><span class="meta"><b>B</b> 1</span></div></td><td><div class="cell" tabindex="0" title="C = 2 · Shapes / Triangle · White / No fill"><span class="sym sixty-four">C</span><span class="meta"><b>C</b> 2</span></div></td><td><div class="cell" tabindex="0" title="D = 3 · Shapes / Square · White / No fill"><span class="sym sixty-four">D</span><span class="meta"><b>D</b> 3</span></div></td><td><div class="cell" tabindex="0" title="E = 4 · Suits / Clubs · White / No fill"><span class="sym sixty-four">E</span><span class="meta"><b>E</b> 4</span></div></td><td><div class="cell" tabindex="0" title="F = 5 · Suits / Diamonds · White / No fill"><span class="sym sixty-four">F</span><span class="meta"><b>F</b> 5</span></div></td><td><div class="cell" tabindex="0" title="G = 6 · Suits / Hearts · White / No fill"><span class="sym sixty-four">G</span><span class="meta"><b>G</b> 6</span></div></td><td><div class="cell" tabindex="0" title="H = 7 · Suits / Spades · White / No fill"><span class="sym sixty-four">H</span><span class="meta"><b>H</b> 7</span></div></td><td><div class="cell" tabindex="0" title="I = 8 · Elements / Drop · White / No fill"><span class="sym sixty-four">I</span><span class="meta"><b>I</b> 8</span></div></td><td><div class="cell" tabindex="0" title="J = 9 · Elements / Flame · White / No fill"><span class="sym sixty-four">J</span><span class="meta"><b>J</b> 9</span></div></td><td><div class="cell" tabindex="0" title="K = 10 · Elements / Cloud · White / No fill"><span class="sym sixty-four">K</span><span class="meta"><b>K</b> 10</span></div></td><td><div class="cell" tabindex="0" title="L = 11 · Elements / Ingot · White / No fill"><span class="sym sixty-four">L</span><span class="meta"><b>L</b> 11</span></div></td><td><div class="cell" tabindex="0" title="M = 12 · Powers / Mushroom · White / No fill"><span class="sym sixty-four">M</span><span class="meta"><b>M</b> 12</span></div></td><td><div class="cell" tabindex="0" title="N = 13 · Powers / Flower · White / No fill"><span class="sym sixty-four">N</span><span class="meta"><b>N</b> 13</span></div></td><td><div class="cell" tabindex="0" title="O = 14 · Powers / Star · White / No fill"><span class="sym sixty-four">O</span><span class="meta"><b>O</b> 14</span></div></td><td><div class="cell" tabindex="0" title="P = 15 · Powers / Moon · White / No fill"><span class="sym sixty-four">P</span><span class="meta"><b>P</b> 15</span></div></td></tr><tr><th class="row-head">Black<br>Total fill</th><td><div class="cell" tabindex="0" title="Q = 16 · Shapes / Cross · Black / Total fill"><span class="sym sixty-four">Q</span><span class="meta"><b>Q</b> 16</span></div></td><td><div class="cell" tabindex="0" title="R = 17 · Shapes / Circle · Black / Total fill"><span class="sym sixty-four">R</span><span class="meta"><b>R</b> 17</span></div></td><td><div class="cell" tabindex="0" title="S = 18 · Shapes / Triangle · Black / Total fill"><span class="sym sixty-four">S</span><span class="meta"><b>S</b> 18</span></div></td><td><div class="cell" tabindex="0" title="T = 19 · Shapes / Square · Black / Total fill"><span class="sym sixty-four">T</span><span class="meta"><b>T</b> 19</span></div></td><td><div class="cell" tabindex="0" title="U = 20 · Suits / Clubs · Black / Total fill"><span class="sym sixty-four">U</span><span class="meta"><b>U</b> 20</span></div></td><td><div class="cell" tabindex="0" title="V = 21 · Suits / Diamonds · Black / Total fill"><span class="sym sixty-four">V</span><span class="meta"><b>V</b> 21</span></div></td><td><div class="cell" tabindex="0" title="W = 22 · Suits / Hearts · Black / Total fill"><span class="sym sixty-four">W</span><span class="meta"><b>W</b> 22</span></div></td><td><div class="cell" tabindex="0" title="X = 23 · Suits / Spades · Black / Total fill"><span class="sym sixty-four">X</span><span class="meta"><b>X</b> 23</span></div></td><td><div class="cell" tabindex="0" title="Y = 24 · Elements / Drop · Black / Total fill"><span class="sym sixty-four">Y</span><span class="meta"><b>Y</b> 24</span></div></td><td><div class="cell" tabindex="0" title="Z = 25 · Elements / Flame · Black / Total fill"><span class="sym sixty-four">Z</span><span class="meta"><b>Z</b> 25</span></div></td><td><div class="cell" tabindex="0" title="a = 26 · Elements / Cloud · Black / Total fill"><span class="sym sixty-four">a</span><span class="meta"><b>a</b> 26</span></div></td><td><div class="cell" tabindex="0" title="b = 27 · Elements / Ingot · Black / Total fill"><span class="sym sixty-four">b</span><span class="meta"><b>b</b> 27</span></div></td><td><div class="cell" tabindex="0" title="c = 28 · Powers / Mushroom · Black / Total fill"><span class="sym sixty-four">c</span><span class="meta"><b>c</b> 28</span></div></td><td><div class="cell" tabindex="0" title="d = 29 · Powers / Flower · Black / Total fill"><span class="sym sixty-four">d</span><span class="meta"><b>d</b> 29</span></div></td><td><div class="cell" tabindex="0" title="e = 30 · Powers / Star · Black / Total fill"><span class="sym sixty-four">e</span><span class="meta"><b>e</b> 30</span></div></td><td><div class="cell" tabindex="0" title="f = 31 · Powers / Moon · Black / Total fill"><span class="sym sixty-four">f</span><span class="meta"><b>f</b> 31</span></div></td></tr><tr><th class="row-head">Blue<br>Dots</th><td><div class="cell" tabindex="0" title="g = 32 · Shapes / Cross · Blue / Dots"><span class="sym sixty-four">g</span><span class="meta"><b>g</b> 32</span></div></td><td><div class="cell" tabindex="0" title="h = 33 · Shapes / Circle · Blue / Dots"><span class="sym sixty-four">h</span><span class="meta"><b>h</b> 33</span></div></td><td><div class="cell" tabindex="0" title="i = 34 · Shapes / Triangle · Blue / Dots"><span class="sym sixty-four">i</span><span class="meta"><b>i</b> 34</span></div></td><td><div class="cell" tabindex="0" title="j = 35 · Shapes / Square · Blue / Dots"><span class="sym sixty-four">j</span><span class="meta"><b>j</b> 35</span></div></td><td><div class="cell" tabindex="0" title="k = 36 · Suits / Clubs · Blue / Dots"><span class="sym sixty-four">k</span><span class="meta"><b>k</b> 36</span></div></td><td><div class="cell" tabindex="0" title="l = 37 · Suits / Diamonds · Blue / Dots"><span class="sym sixty-four">l</span><span class="meta"><b>l</b> 37</span></div></td><td><div class="cell" tabindex="0" title="m = 38 · Suits / Hearts · Blue / Dots"><span class="sym sixty-four">m</span><span class="meta"><b>m</b> 38</span></div></td><td><div class="cell" tabindex="0" title="n = 39 · Suits / Spades · Blue / Dots"><span class="sym sixty-four">n</span><span class="meta"><b>n</b> 39</span></div></td><td><div class="cell" tabindex="0" title="o = 40 · Elements / Drop · Blue / Dots"><span class="sym sixty-four">o</span><span class="meta"><b>o</b> 40</span></div></td><td><div class="cell" tabindex="0" title="p = 41 · Elements / Flame · Blue / Dots"><span class="sym sixty-four">p</span><span class="meta"><b>p</b> 41</span></div></td><td><div class="cell" tabindex="0" title="q = 42 · Elements / Cloud · Blue / Dots"><span class="sym sixty-four">q</span><span class="meta"><b>q</b> 42</span></div></td><td><div class="cell" tabindex="0" title="r = 43 · Elements / Ingot · Blue / Dots"><span class="sym sixty-four">r</span><span class="meta"><b>r</b> 43</span></div></td><td><div class="cell" tabindex="0" title="s = 44 · Powers / Mushroom · Blue / Dots"><span class="sym sixty-four">s</span><span class="meta"><b>s</b> 44</span></div></td><td><div class="cell" tabindex="0" title="t = 45 · Powers / Flower · Blue / Dots"><span class="sym sixty-four">t</span><span class="meta"><b>t</b> 45</span></div></td><td><div class="cell" tabindex="0" title="u = 46 · Powers / Star · Blue / Dots"><span class="sym sixty-four">u</span><span class="meta"><b>u</b> 46</span></div></td><td><div class="cell" tabindex="0" title="v = 47 · Powers / Moon · Blue / Dots"><span class="sym sixty-four">v</span><span class="meta"><b>v</b> 47</span></div></td></tr><tr><th class="row-head">Red<br>Line</th><td><div class="cell" tabindex="0" title="w = 48 · Shapes / Cross · Red / Line"><span class="sym sixty-four">w</span><span class="meta"><b>w</b> 48</span></div></td><td><div class="cell" tabindex="0" title="x = 49 · Shapes / Circle · Red / Line"><span class="sym sixty-four">x</span><span class="meta"><b>x</b> 49</span></div></td><td><div class="cell" tabindex="0" title="y = 50 · Shapes / Triangle · Red / Line"><span class="sym sixty-four">y</span><span class="meta"><b>y</b> 50</span></div></td><td><div class="cell" tabindex="0" title="z = 51 · Shapes / Square · Red / Line"><span class="sym sixty-four">z</span><span class="meta"><b>z</b> 51</span></div></td><td><div class="cell" tabindex="0" title="0 = 52 · Suits / Clubs · Red / Line"><span class="sym sixty-four">0</span><span class="meta"><b>0</b> 52</span></div></td><td><div class="cell" tabindex="0" title="1 = 53 · Suits / Diamonds · Red / Line"><span class="sym sixty-four">1</span><span class="meta"><b>1</b> 53</span></div></td><td><div class="cell" tabindex="0" title="2 = 54 · Suits / Hearts · Red / Line"><span class="sym sixty-four">2</span><span class="meta"><b>2</b> 54</span></div></td><td><div class="cell" tabindex="0" title="3 = 55 · Suits / Spades · Red / Line"><span class="sym sixty-four">3</span><span class="meta"><b>3</b> 55</span></div></td><td><div class="cell" tabindex="0" title="4 = 56 · Elements / Drop · Red / Line"><span class="sym sixty-four">4</span><span class="meta"><b>4</b> 56</span></div></td><td><div class="cell" tabindex="0" title="5 = 57 · Elements / Flame · Red / Line"><span class="sym sixty-four">5</span><span class="meta"><b>5</b> 57</span></div></td><td><div class="cell" tabindex="0" title="6 = 58 · Elements / Cloud · Red / Line"><span class="sym sixty-four">6</span><span class="meta"><b>6</b> 58</span></div></td><td><div class="cell" tabindex="0" title="7 = 59 · Elements / Ingot · Red / Line"><span class="sym sixty-four">7</span><span class="meta"><b>7</b> 59</span></div></td><td><div class="cell" tabindex="0" title="8 = 60 · Powers / Mushroom · Red / Line"><span class="sym sixty-four">8</span><span class="meta"><b>8</b> 60</span></div></td><td><div class="cell" tabindex="0" title="9 = 61 · Powers / Flower · Red / Line"><span class="sym sixty-four">9</span><span class="meta"><b>9</b> 61</span></div></td><td><div class="cell" tabindex="0" title="+ = 62 · Powers / Star · Red / Line"><span class="sym sixty-four">+</span><span class="meta"><b>+</b> 62</span></div></td><td><div class="cell" tabindex="0" title="/ = 63 · Powers / Moon · Red / Line"><span class="sym sixty-four">/</span><span class="meta"><b>/</b> 63</span></div></td></tr></tbody></table></div></div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Reading one symbol</p>
+    <h2>Shape, then texture.</h2>
+    <div class="decode" style="margin-top:28px">
+      <div class="step">
+        <span class="k">The symbol</span>
+        <span class="v big sixty-four" data-desaturable>p</span>
+      </div>
+      <div class="step">
+        <span class="k">Shape</span>
+        <span class="v">Flame</span>
+        <p>Elements, shape 1 of 0&ndash;3. Carries the low two bits.</p>
+      </div>
+      <div class="step">
+        <span class="k">Texture</span>
+        <span class="v">Dots &middot; Blue</span>
+        <p>Tier 2 of 0&ndash;3. Colour and hatch say the same thing, so either one on its own is enough to read it.</p>
+      </div>
+      <div class="step">
+        <span class="k">Therefore</span>
+        <span class="v"><code>p</code> = 41</span>
+        <p>2 &times; 16 + 2 &times; 4 + 1 = 41</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">At size</p>
+    <h2>It holds down to body text.</h2>
+    <div class="sizes" style="margin-top:28px" data-desaturable><div class="size-row"><span class="tag">14px</span><span class="run sixty-four" style="font-size:14px">U2l4dHkgRm91ciBtYWtlcyBiYXNlNjQgbGVnaWJsZS4=</span></div><div class="size-row"><span class="tag">20px</span><span class="run sixty-four" style="font-size:20px">U2l4dHkgRm91ciBtYWtlcyBiYXNlNjQgbGVnaWJsZS4=</span></div><div class="size-row"><span class="tag">32px</span><span class="run sixty-four" style="font-size:32px">U2l4dHkgRm91ciBtYWtlcyBiYXNlNjQgbGVnaWJsZS4=</span></div><div class="size-row"><span class="tag">56px</span><span class="run sixty-four" style="font-size:56px">U2l4dHkgRm91ciBtYWtlcyBiYXNlNjQgbGVnaWJsZS4=</span></div></div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Using it</p>
+    <h2>One file, no hosting.</h2>
+    <div class="stack" style="margin-top:24px">
+      <p><code>sixty-four.css</code> carries the font inside it as a data URI, so there is no
+      second request and nothing to upload. Link it and add the class.</p>
+      <pre>&lt;link rel="stylesheet" href="sixty-four.css"&gt;
+
+&lt;span class="sixty-four"&gt;U2l4dHkgRm91ciBtYWtlcyBi&lt;/span&gt;</pre>
+      <p>Outside the browser, install <code>SixtyFour-Regular.ttf</code> and set it as the font in
+      any editor or terminal &mdash; every glyph is one em wide, so columns stay aligned.
+      Where colour fonts are not supported the same file falls back to the hatched outlines rather
+      than to nothing. <code>Sixty Four Mono</code> ships separately for anywhere that prefers
+      no colour table at all.</p>
+      <p>URL-safe base64 works too: <code>-</code>, <code>_</code> map onto the same symbols as
+      <code>+</code> and <code>/</code>, so JWTs and file-safe encodings need no conversion.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Reference</p>
+    <h2>All sixty-four.</h2>
+    <div style="margin-top:24px" data-desaturable><div class="table-scroll"><table class="full"><thead><tr><th>Symbol</th><th>Char</th><th>Value</th><th>Codepoint</th><th>Class</th><th>Shape</th><th>Colour</th><th>Hatch</th><th>URL-safe</th></tr></thead><tbody><tr><td class="sym sixty-four">A</td><td class="mono">A</td><td class="mono">0</td><td class="mono">U+0041</td><td>Shapes</td><td>Cross</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">B</td><td class="mono">B</td><td class="mono">1</td><td class="mono">U+0042</td><td>Shapes</td><td>Circle</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">C</td><td class="mono">C</td><td class="mono">2</td><td class="mono">U+0043</td><td>Shapes</td><td>Triangle</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">D</td><td class="mono">D</td><td class="mono">3</td><td class="mono">U+0044</td><td>Shapes</td><td>Square</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">E</td><td class="mono">E</td><td class="mono">4</td><td class="mono">U+0045</td><td>Suits</td><td>Clubs</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">F</td><td class="mono">F</td><td class="mono">5</td><td class="mono">U+0046</td><td>Suits</td><td>Diamonds</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">G</td><td class="mono">G</td><td class="mono">6</td><td class="mono">U+0047</td><td>Suits</td><td>Hearts</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">H</td><td class="mono">H</td><td class="mono">7</td><td class="mono">U+0048</td><td>Suits</td><td>Spades</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">I</td><td class="mono">I</td><td class="mono">8</td><td class="mono">U+0049</td><td>Elements</td><td>Drop</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">J</td><td class="mono">J</td><td class="mono">9</td><td class="mono">U+004A</td><td>Elements</td><td>Flame</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">K</td><td class="mono">K</td><td class="mono">10</td><td class="mono">U+004B</td><td>Elements</td><td>Cloud</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">L</td><td class="mono">L</td><td class="mono">11</td><td class="mono">U+004C</td><td>Elements</td><td>Ingot</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">M</td><td class="mono">M</td><td class="mono">12</td><td class="mono">U+004D</td><td>Powers</td><td>Mushroom</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">N</td><td class="mono">N</td><td class="mono">13</td><td class="mono">U+004E</td><td>Powers</td><td>Flower</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">O</td><td class="mono">O</td><td class="mono">14</td><td class="mono">U+004F</td><td>Powers</td><td>Star</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">P</td><td class="mono">P</td><td class="mono">15</td><td class="mono">U+0050</td><td>Powers</td><td>Moon</td><td><span class="swatch"><i style="background:var(--ink)"></i>White</span></td><td>No fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">Q</td><td class="mono">Q</td><td class="mono">16</td><td class="mono">U+0051</td><td>Shapes</td><td>Cross</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">R</td><td class="mono">R</td><td class="mono">17</td><td class="mono">U+0052</td><td>Shapes</td><td>Circle</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">S</td><td class="mono">S</td><td class="mono">18</td><td class="mono">U+0053</td><td>Shapes</td><td>Triangle</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">T</td><td class="mono">T</td><td class="mono">19</td><td class="mono">U+0054</td><td>Shapes</td><td>Square</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">U</td><td class="mono">U</td><td class="mono">20</td><td class="mono">U+0055</td><td>Suits</td><td>Clubs</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">V</td><td class="mono">V</td><td class="mono">21</td><td class="mono">U+0056</td><td>Suits</td><td>Diamonds</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">W</td><td class="mono">W</td><td class="mono">22</td><td class="mono">U+0057</td><td>Suits</td><td>Hearts</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">X</td><td class="mono">X</td><td class="mono">23</td><td class="mono">U+0058</td><td>Suits</td><td>Spades</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">Y</td><td class="mono">Y</td><td class="mono">24</td><td class="mono">U+0059</td><td>Elements</td><td>Drop</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">Z</td><td class="mono">Z</td><td class="mono">25</td><td class="mono">U+005A</td><td>Elements</td><td>Flame</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">a</td><td class="mono">a</td><td class="mono">26</td><td class="mono">U+0061</td><td>Elements</td><td>Cloud</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">b</td><td class="mono">b</td><td class="mono">27</td><td class="mono">U+0062</td><td>Elements</td><td>Ingot</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">c</td><td class="mono">c</td><td class="mono">28</td><td class="mono">U+0063</td><td>Powers</td><td>Mushroom</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">d</td><td class="mono">d</td><td class="mono">29</td><td class="mono">U+0064</td><td>Powers</td><td>Flower</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">e</td><td class="mono">e</td><td class="mono">30</td><td class="mono">U+0065</td><td>Powers</td><td>Star</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">f</td><td class="mono">f</td><td class="mono">31</td><td class="mono">U+0066</td><td>Powers</td><td>Moon</td><td><span class="swatch"><i style="background:var(--ink)"></i>Black</span></td><td>Total fill</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">g</td><td class="mono">g</td><td class="mono">32</td><td class="mono">U+0067</td><td>Shapes</td><td>Cross</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">h</td><td class="mono">h</td><td class="mono">33</td><td class="mono">U+0068</td><td>Shapes</td><td>Circle</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">i</td><td class="mono">i</td><td class="mono">34</td><td class="mono">U+0069</td><td>Shapes</td><td>Triangle</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">j</td><td class="mono">j</td><td class="mono">35</td><td class="mono">U+006A</td><td>Shapes</td><td>Square</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">k</td><td class="mono">k</td><td class="mono">36</td><td class="mono">U+006B</td><td>Suits</td><td>Clubs</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">l</td><td class="mono">l</td><td class="mono">37</td><td class="mono">U+006C</td><td>Suits</td><td>Diamonds</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">m</td><td class="mono">m</td><td class="mono">38</td><td class="mono">U+006D</td><td>Suits</td><td>Hearts</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">n</td><td class="mono">n</td><td class="mono">39</td><td class="mono">U+006E</td><td>Suits</td><td>Spades</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">o</td><td class="mono">o</td><td class="mono">40</td><td class="mono">U+006F</td><td>Elements</td><td>Drop</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">p</td><td class="mono">p</td><td class="mono">41</td><td class="mono">U+0070</td><td>Elements</td><td>Flame</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">q</td><td class="mono">q</td><td class="mono">42</td><td class="mono">U+0071</td><td>Elements</td><td>Cloud</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">r</td><td class="mono">r</td><td class="mono">43</td><td class="mono">U+0072</td><td>Elements</td><td>Ingot</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">s</td><td class="mono">s</td><td class="mono">44</td><td class="mono">U+0073</td><td>Powers</td><td>Mushroom</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">t</td><td class="mono">t</td><td class="mono">45</td><td class="mono">U+0074</td><td>Powers</td><td>Flower</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">u</td><td class="mono">u</td><td class="mono">46</td><td class="mono">U+0075</td><td>Powers</td><td>Star</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">v</td><td class="mono">v</td><td class="mono">47</td><td class="mono">U+0076</td><td>Powers</td><td>Moon</td><td><span class="swatch"><i style="background:var(--blue)"></i>Blue</span></td><td>Dots</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">w</td><td class="mono">w</td><td class="mono">48</td><td class="mono">U+0077</td><td>Shapes</td><td>Cross</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">x</td><td class="mono">x</td><td class="mono">49</td><td class="mono">U+0078</td><td>Shapes</td><td>Circle</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">y</td><td class="mono">y</td><td class="mono">50</td><td class="mono">U+0079</td><td>Shapes</td><td>Triangle</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">z</td><td class="mono">z</td><td class="mono">51</td><td class="mono">U+007A</td><td>Shapes</td><td>Square</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">0</td><td class="mono">0</td><td class="mono">52</td><td class="mono">U+0030</td><td>Suits</td><td>Clubs</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">1</td><td class="mono">1</td><td class="mono">53</td><td class="mono">U+0031</td><td>Suits</td><td>Diamonds</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">2</td><td class="mono">2</td><td class="mono">54</td><td class="mono">U+0032</td><td>Suits</td><td>Hearts</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">3</td><td class="mono">3</td><td class="mono">55</td><td class="mono">U+0033</td><td>Suits</td><td>Spades</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">4</td><td class="mono">4</td><td class="mono">56</td><td class="mono">U+0034</td><td>Elements</td><td>Drop</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">5</td><td class="mono">5</td><td class="mono">57</td><td class="mono">U+0035</td><td>Elements</td><td>Flame</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">6</td><td class="mono">6</td><td class="mono">58</td><td class="mono">U+0036</td><td>Elements</td><td>Cloud</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">7</td><td class="mono">7</td><td class="mono">59</td><td class="mono">U+0037</td><td>Elements</td><td>Ingot</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">8</td><td class="mono">8</td><td class="mono">60</td><td class="mono">U+0038</td><td>Powers</td><td>Mushroom</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">9</td><td class="mono">9</td><td class="mono">61</td><td class="mono">U+0039</td><td>Powers</td><td>Flower</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono">—</td></tr><tr><td class="sym sixty-four">+</td><td class="mono">+</td><td class="mono">62</td><td class="mono">U+002B</td><td>Powers</td><td>Star</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono"><code>-</code></td></tr><tr><td class="sym sixty-four">/</td><td class="mono">/</td><td class="mono">63</td><td class="mono">U+002F</td><td>Powers</td><td>Moon</td><td><span class="swatch"><i style="background:var(--red)"></i>Red</span></td><td>Line</td><td class="mono"><code>_</code></td></tr></tbody></table></div></div>
+  </section>
+
+  <footer>
+    Sixty Four &middot; 64 symbols across 4 classes &middot;
+    colour and hatch carry the same information, on purpose.
+  </footer>
+</div>
+
+<script>
+(function () {
+  var input = document.getElementById('sf-input');
+  var raw = document.getElementById('sf-raw');
+  var symbols = document.getElementById('sf-symbols');
+
+  function encode(text) {
+    var bytes = new TextEncoder().encode(text);
+    var binary = '';
+    for (var i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    return btoa(binary);
+  }
+
+  function update() {
+    var encoded = encode(input.value);
+    raw.textContent = encoded || '\u2014';
+    symbols.textContent = encoded;
+  }
+
+  input.addEventListener('input', update);
+  update();
+
+  var button = document.getElementById('sf-grey');
+  button.addEventListener('click', function () {
+    var on = button.getAttribute('aria-pressed') !== 'true';
+    button.setAttribute('aria-pressed', String(on));
+    button.textContent = on ? 'Colour off \u2014 hatch only' : 'Drop the colour';
+    document.querySelectorAll('[data-desaturable]').forEach(function (el) {
+      el.classList.toggle('desaturated', on);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

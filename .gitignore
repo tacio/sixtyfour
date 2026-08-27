@@ -1,0 +1,13 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# NOTE: dist/ is deliberately NOT ignored. The built fonts, the embedded CSS and
+# the specimen are the point of this repo -- someone should be able to clone it
+# and use the font without installing a toolchain.
