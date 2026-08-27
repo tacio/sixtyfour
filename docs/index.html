@@ -383,6 +383,32 @@ footer {
     </div>
   </section>
 
+  <style>
+/* --- downloads (hosted page only) ---------------------------------------- */
+
+.downloads { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.bundle {
+  background: var(--raised); border: 1px solid var(--rule); border-radius: 4px;
+  padding: 20px; display: flex; flex-direction: column; gap: 14px;
+}
+.bundle h3 { font-size: .95rem; }
+.bundle p { font-size: .86rem; color: var(--muted); }
+.bundle ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.bundle li { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 5px 0; border-top: 1px solid var(--rule); }
+.bundle li:first-child { border-top: 0; }
+.bundle a {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .82rem;
+  color: var(--ink); text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+}
+.bundle a:hover, .bundle a:focus-visible { border-bottom-color: var(--ink); }
+.bundle a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.bundle .size {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem;
+  color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+</style><section><p class="eyebrow">Download</p><h2>Take the files.</h2><div class="downloads" style="margin-top:28px"><div class="bundle"><h3>Colour font</h3><p>COLR v0 with CPAL. Keeps full hatched outlines as fallback, so renderers without colour support show the artwork rather than nothing.</p><ul><li><a href="SixtyFour-Regular.ttf" download>SixtyFour-Regular.ttf</a><span class="size">31.2 KB</span></li><li><a href="SixtyFour-Regular.woff2" download>SixtyFour-Regular.woff2</a><span class="size">8.7 KB</span></li><li><a href="SixtyFour-Regular.woff" download>SixtyFour-Regular.woff</a><span class="size">11.1 KB</span></li></ul></div><div class="bundle"><h3>Monochrome font</h3><p>No colour tables at all, for anywhere a colour table is unwelcome. The hatch still separates all four tiers on its own.</p><ul><li><a href="SixtyFourMono-Regular.ttf" download>SixtyFourMono-Regular.ttf</a><span class="size">28.1 KB</span></li><li><a href="SixtyFourMono-Regular.woff2" download>SixtyFourMono-Regular.woff2</a><span class="size">7.9 KB</span></li><li><a href="SixtyFourMono-Regular.otf" download>SixtyFourMono-Regular.otf</a><span class="size">15.8 KB</span></li></ul></div><div class="bundle"><h3>Stylesheets</h3><p>The font is embedded inside each one as a data URI. Link it and add the class — there is no second request and nothing to upload.</p><ul><li><a href="sixty-four.css" download>sixty-four.css</a><span class="size">12.7 KB</span></li><li><a href="sixty-four-mono.css" download>sixty-four-mono.css</a><span class="size">11.5 KB</span></li></ul></div><div class="bundle"><h3>The alphabet as data</h3><p>Character, value, class, shape, colour and hatch for all 64, for writing your own renderer.</p><ul><li><a href="mapping.json" download>mapping.json</a><span class="size">16.1 KB</span></li><li><a href="mapping.tsv" download>mapping.tsv</a><span class="size">4.3 KB</span></li></ul></div></div></section>
+
   <section>
     <p class="eyebrow">Reference</p>
     <h2>All sixty-four.</h2>

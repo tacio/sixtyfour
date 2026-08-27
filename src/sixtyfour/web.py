@@ -376,6 +376,95 @@ def _full_table() -> str:
     )
 
 
+_DOWNLOAD_STYLE = """
+/* --- downloads (hosted page only) ---------------------------------------- */
+
+.downloads { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.bundle {
+  background: var(--raised); border: 1px solid var(--rule); border-radius: 4px;
+  padding: 20px; display: flex; flex-direction: column; gap: 14px;
+}
+.bundle h3 { font-size: .95rem; }
+.bundle p { font-size: .86rem; color: var(--muted); }
+.bundle ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.bundle li { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 5px 0; border-top: 1px solid var(--rule); }
+.bundle li:first-child { border-top: 0; }
+.bundle a {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .82rem;
+  color: var(--ink); text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+}
+.bundle a:hover, .bundle a:focus-visible { border-bottom-color: var(--ink); }
+.bundle a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.bundle .size {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem;
+  color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+"""
+
+#: Grouped for the hosted page: what someone is actually choosing between is a
+#: bundle, not a file extension.
+DOWNLOAD_BUNDLES: list[tuple[str, str, list[str]]] = [
+    (
+        "Colour font",
+        "COLR v0 with CPAL. Keeps full hatched outlines as fallback, so renderers "
+        "without colour support show the artwork rather than nothing.",
+        ["SixtyFour-Regular.ttf", "SixtyFour-Regular.woff2", "SixtyFour-Regular.woff"],
+    ),
+    (
+        "Monochrome font",
+        "No colour tables at all, for anywhere a colour table is unwelcome. The hatch "
+        "still separates all four tiers on its own.",
+        [
+            "SixtyFourMono-Regular.ttf",
+            "SixtyFourMono-Regular.woff2",
+            "SixtyFourMono-Regular.otf",
+        ],
+    ),
+    (
+        "Stylesheets",
+        "The font is embedded inside each one as a data URI. Link it and add the class "
+        "\u2014 there is no second request and nothing to upload.",
+        ["sixty-four.css", "sixty-four-mono.css"],
+    ),
+    (
+        "The alphabet as data",
+        "Character, value, class, shape, colour and hatch for all 64, for writing your "
+        "own renderer.",
+        ["mapping.json", "mapping.tsv"],
+    ),
+]
+
+
+def _human_size(count: int) -> str:
+    return f"{count / 1024:.1f} KB" if count >= 1024 else f"{count} B"
+
+
+def _downloads(asset_dir: Path) -> str:
+    """The download panel. Hosted pages only -- an Artifact cannot serve files."""
+    bundles = []
+    for title, note, filenames in DOWNLOAD_BUNDLES:
+        items = []
+        for filename in filenames:
+            asset = asset_dir / filename
+            if not asset.is_file():
+                continue
+            items.append(
+                f'<li><a href="{filename}" download>{html.escape(filename)}</a>'
+                f'<span class="size">{_human_size(asset.stat().st_size)}</span></li>'
+            )
+        if items:
+            bundles.append(
+                f'<div class="bundle"><h3>{html.escape(title)}</h3>'
+                f"<p>{note}</p><ul>{''.join(items)}</ul></div>"
+            )
+    return (
+        f"<style>{_DOWNLOAD_STYLE}</style>"
+        '<section><p class="eyebrow">Download</p><h2>Take the files.</h2>'
+        f'<div class="downloads" style="margin-top:28px">{"".join(bundles)}</div></section>'
+    )
+
+
 def _script() -> str:
     return """
 (function () {
@@ -412,13 +501,16 @@ def _script() -> str:
 """
 
 
-def _body(woff2: Path) -> str:
+def _body(woff2: Path, downloads: str = "") -> str:
     walk = TABLE[41]  # 'p' -- Flame, dots. A worked example with every field distinct.
     sizes = "".join(
         f'<div class="size-row"><span class="tag">{px}px</span>'
         f'<span class="run {CSS_CLASS}" style="font-size:{px}px">{html.escape(_encoded_sample())}</span></div>'
         for px in (14, 20, 32, 56)
     )
+    # Only the hosted build has a downloads section; keep its absence from
+    # leaving a hole in the markup.
+    downloads_block = f"  {downloads}\n\n" if downloads else ""
     alias_list = ", ".join(f"<code>{html.escape(a)}</code>" for a in URLSAFE_ALIASES)
     standard_list = " and ".join(
         f"<code>{html.escape(s)}</code>" for s in URLSAFE_ALIASES.values()
@@ -553,7 +645,7 @@ def _body(woff2: Path) -> str:
     </div>
   </section>
 
-  <section>
+{downloads_block}  <section>
     <p class="eyebrow">Reference</p>
     <h2>All sixty-four.</h2>
     <div style="margin-top:24px" data-desaturable>{_full_table()}</div>
@@ -573,16 +665,28 @@ def _encoded_sample() -> str:
     return base64.b64encode(SAMPLE_TEXT.encode("utf-8")).decode("ascii")
 
 
-def specimen_html(woff2: Path, standalone: bool = True) -> str:
-    body = _body(woff2)
+def specimen_html(woff2: Path, standalone: bool = True, downloads: str = "") -> str:
+    """The specimen page.
+
+    `standalone` wraps it in a full document; an Artifact supplies its own
+    skeleton and takes the body alone. `downloads` is only ever passed for a
+    hosted page -- an Artifact viewer cannot save a file the page offers it.
+    """
+    body = _body(woff2, downloads)
     if not standalone:
         return f"<title>{PAGE_TITLE}</title>\n{body}"
+    description = html.escape(DESCRIPTION)
     return (
         "<!doctype html>\n<html lang=\"en\">\n<head>\n"
         '<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
         f"<title>{PAGE_TITLE}</title>\n"
-        f'<meta name="description" content="{html.escape(DESCRIPTION)}">\n'
+        f'<meta name="description" content="{description}">\n'
+        f'<meta property="og:title" content="{PAGE_TITLE}">\n'
+        f'<meta property="og:description" content="{description}">\n'
+        '<meta property="og:type" content="website">\n'
+        '<meta property="og:image" content="specimen.png">\n'
+        '<meta name="twitter:card" content="summary_large_image">\n'
         "</head>\n<body>\n"
         f"{body}\n</body>\n</html>\n"
     )
@@ -606,4 +710,44 @@ def write_all(out_dir: Path, color_woff2: Path, mono_woff2: Path) -> list[Path]:
     page = out_dir / "specimen.html"
     page.write_text(specimen_html(color_woff2, standalone=True), encoding="utf-8")
     written.append(page)
+    return written
+
+
+#: Everything the hosted site serves alongside the page itself.
+PAGES_ASSETS = [name for _, _, names in DOWNLOAD_BUNDLES for name in names] + ["specimen.png"]
+
+
+def write_pages(docs_dir: Path, dist_dir: Path) -> list[Path]:
+    """A GitHub Pages site: the specimen plus every file it offers for download.
+
+    Everything is flat in the one directory, so the `href="sixty-four.css"` in
+    the page's own install snippet is literally true of the page serving it.
+    """
+    docs_dir.mkdir(parents=True, exist_ok=True)
+    written = []
+
+    for name in PAGES_ASSETS:
+        source = dist_dir / name
+        if not source.is_file():
+            continue
+        target = docs_dir / name
+        target.write_bytes(source.read_bytes())
+        written.append(target)
+
+    index = docs_dir / "index.html"
+    index.write_text(
+        specimen_html(
+            dist_dir / "SixtyFour-Regular.woff2",
+            standalone=True,
+            downloads=_downloads(docs_dir),
+        ),
+        encoding="utf-8",
+    )
+    written.append(index)
+
+    # Without this, Pages runs the files through Jekyll, which ignores paths
+    # beginning with an underscore and can rewrite what it thinks is templating.
+    nojekyll = docs_dir / ".nojekyll"
+    nojekyll.write_text("", encoding="utf-8")
+    written.append(nojekyll)
     return written

@@ -8,6 +8,7 @@ wheels/
 # Virtual environments
 .venv
 
-# NOTE: dist/ is deliberately NOT ignored. The built fonts, the embedded CSS and
-# the specimen are the point of this repo -- someone should be able to clone it
-# and use the font without installing a toolchain.
+# NOTE: dist/ and docs/ are deliberately NOT ignored. The built fonts, the
+# embedded CSS and the specimen are the point of this repo -- someone should be
+# able to clone it and use the font without installing a toolchain -- and docs/
+# is what GitHub Pages serves.

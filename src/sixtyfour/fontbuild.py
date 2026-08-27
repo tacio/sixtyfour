@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import contextlib
+import os
 from pathlib import Path
 
 import ufo2ft
@@ -33,6 +35,27 @@ FILL_PALETTE_INDEX = {
     "dots": BLUE,
     "lines": RED,
 }
+
+
+@contextlib.contextmanager
+def reproducible():
+    """Pin the build clock.
+
+    fontTools reads SOURCE_DATE_EPOCH for head.modified and falls back to the
+    current time. Since the built fonts are committed, that fallback would show
+    every rebuild as a binary change even when no outline moved. An epoch
+    already in the environment wins, so reproducible-build systems stay in
+    charge.
+    """
+    key = "SOURCE_DATE_EPOCH"
+    if key in os.environ:
+        yield
+        return
+    os.environ[key] = ufobuild.BUILD_EPOCH
+    try:
+        yield
+    finally:
+        del os.environ[key]
 
 
 def _compile(ufo: ufoLib2.Font, *, cff: bool) -> TTFont:
@@ -73,16 +96,18 @@ def _save(font: TTFont, path: Path, flavor: str | None = None) -> Path:
 
 def build_color(out_dir: Path, stem: str = "SixtyFour-Regular") -> list[Path]:
     """The colour font: COLR v0 + CPAL, with monochrome fallback outlines."""
-    ufo = ufobuild.build_ufo(ufobuild.FAMILY_NAME)
-    layers = ufobuild.add_color_layers(ufo)
-    ttf = _compile(ufo, cff=False)
-    attach_color(ttf, layers)
-    written = [
-        _save(ttf, out_dir / f"{stem}.ttf"),
-        _save(ttf, out_dir / f"{stem}.woff2", "woff2"),
-        _save(ttf, out_dir / f"{stem}.woff", "woff"),
-    ]
-    return written
+    # head.modified is stamped when the file is written, not when it is compiled,
+    # so the clock has to stay pinned across the saves as well.
+    with reproducible():
+        ufo = ufobuild.build_ufo(ufobuild.FAMILY_NAME)
+        layers = ufobuild.add_color_layers(ufo)
+        ttf = _compile(ufo, cff=False)
+        attach_color(ttf, layers)
+        return [
+            _save(ttf, out_dir / f"{stem}.ttf"),
+            _save(ttf, out_dir / f"{stem}.woff2", "woff2"),
+            _save(ttf, out_dir / f"{stem}.woff", "woff"),
+        ]
 
 
 def build_mono(out_dir: Path, stem: str = "SixtyFourMono-Regular") -> list[Path]:
@@ -91,11 +116,12 @@ def build_mono(out_dir: Path, stem: str = "SixtyFourMono-Regular") -> list[Path]
     Also shipped as CFF. COLR in a CFF font is legal but poorly supported in
     practice, so the .otf is monochrome only and the .ttf carries the colour.
     """
-    ufo = ufobuild.build_ufo(ufobuild.MONO_FAMILY_NAME)
-    ttf = _compile(ufo, cff=False)
-    otf = _compile(ufobuild.build_ufo(ufobuild.MONO_FAMILY_NAME), cff=True)
-    return [
-        _save(ttf, out_dir / f"{stem}.ttf"),
-        _save(ttf, out_dir / f"{stem}.woff2", "woff2"),
-        _save(otf, out_dir / f"{stem}.otf"),
-    ]
+    with reproducible():
+        ufo = ufobuild.build_ufo(ufobuild.MONO_FAMILY_NAME)
+        ttf = _compile(ufo, cff=False)
+        otf = _compile(ufobuild.build_ufo(ufobuild.MONO_FAMILY_NAME), cff=True)
+        return [
+            _save(ttf, out_dir / f"{stem}.ttf"),
+            _save(ttf, out_dir / f"{stem}.woff2", "woff2"),
+            _save(otf, out_dir / f"{stem}.otf"),
+        ]

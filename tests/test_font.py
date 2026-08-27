@@ -7,7 +7,9 @@ that a person can tell sixty-four symbols apart, in colour and without it.
 from __future__ import annotations
 
 import base64
+import hashlib
 import itertools
+import re
 import string
 from pathlib import Path
 
@@ -15,8 +17,8 @@ import pytest
 from fontTools.ttLib import TTFont
 from PIL import ImageChops, ImageStat
 
-from sixtyfour import glyphs, render, spec
-from sixtyfour.cli import COLOR_STEM, DIST_DIR, MONO_STEM
+from sixtyfour import glyphs, render, spec, web
+from sixtyfour.cli import COLOR_STEM, DIST_DIR, DOCS_DIR, MONO_STEM
 from sixtyfour.spec import BASE64_ALPHABET, FILLS, SILHOUETTES, TABLE
 from sixtyfour.ufobuild import ADVANCE
 
@@ -218,3 +220,81 @@ def test_every_svg_was_written():
     for entry in TABLE:
         assert (svg_dir / entry.svg_filename).is_file()
     assert (svg_dir / "u003D.svg").is_file()
+
+
+# --- 8. the hosted page ------------------------------------------------------
+
+
+@pytest.fixture(scope="module")
+def pages_html() -> str:
+    return (DOCS_DIR / "index.html").read_text(encoding="utf-8")
+
+
+def test_pages_site_has_an_index_and_opts_out_of_jekyll():
+    assert (DOCS_DIR / "index.html").is_file()
+    # Without .nojekyll, Pages drops anything whose path starts with an underscore.
+    assert (DOCS_DIR / ".nojekyll").exists()
+
+
+def test_every_advertised_asset_is_actually_served():
+    for name in web.PAGES_ASSETS:
+        served, built = DOCS_DIR / name, DIST_DIR / name
+        assert served.is_file(), f"{name} is offered but not present in docs/"
+        assert served.read_bytes() == built.read_bytes(), f"{name} is stale against dist/"
+
+
+def test_no_link_on_the_page_points_at_a_missing_file(pages_html):
+    hrefs = re.findall(r'href="([^"]+)"', pages_html)
+    local = [h for h in hrefs if not h.startswith(("http://", "https://", "#", "mailto:"))]
+    assert local, "expected the page to link its own downloads"
+    assert [h for h in local if not (DOCS_DIR / h).is_file()] == []
+
+
+def test_page_is_self_contained_apart_from_the_font_host(pages_html):
+    """Everything needed to render must ship with the site. The one exception is
+    Google Fonts, which degrades to the declared fallback stacks if blocked."""
+    hosts = set(re.findall(r"https?://([^/\"\')]+)", pages_html))
+    assert hosts <= {"fonts.googleapis.com"}
+    assert "data:font/woff2;base64," in pages_html
+
+
+def test_page_defines_every_colour_token_outside_the_dark_blocks(pages_html):
+    """The classic unreadable-artifact bug: a colour whose only definition sits
+    behind a media query never applies when the OS reports no preference."""
+    style = "\n".join(re.findall(r"<style>(.*?)</style>", pages_html, re.S))
+    root = set(re.findall(r"(--[a-z-]+)\s*:", re.search(r":root\s*\{(.*?)\}", style, re.S).group(1)))
+    dark_blocks = re.findall(
+        r'(?:@media \(prefers-color-scheme: dark\)|:root\[data-theme="dark"\])\s*\{(.*?)\n\}',
+        style,
+        re.S,
+    )
+    assert dark_blocks, "expected a dark theme"
+    defined_in_dark = set()
+    for block in dark_blocks:
+        defined_in_dark |= set(re.findall(r"(--[a-z-]+)\s*:", block))
+    assert defined_in_dark - root - {"--sf-dark"} == set()
+
+
+def test_artifact_variant_offers_no_downloads():
+    """An Artifact viewer is sandboxed against downloads the page starts itself,
+    so the section must never reach that build."""
+    body = web.specimen_html(DIST_DIR / f"{COLOR_STEM}.woff2", standalone=False)
+    assert "download" not in body
+    assert "<!doctype" not in body.lower()
+
+
+# --- 9. reproducibility ------------------------------------------------------
+
+
+def test_two_builds_produce_byte_identical_fonts(tmp_path):
+    """dist/ and docs/ are committed, so a rebuild that changes nothing must
+    change nothing. Left alone, fontTools stamps head.modified at save time and
+    every run would show as a binary diff."""
+    from sixtyfour import fontbuild
+
+    first, second = tmp_path / "one", tmp_path / "two"
+    digests = []
+    for out in (first, second):
+        built = fontbuild.build_color(out) + fontbuild.build_mono(out)
+        digests.append({p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in built})
+    assert digests[0] == digests[1]

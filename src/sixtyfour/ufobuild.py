@@ -28,6 +28,12 @@ DESCRIPTION = (
     "and compare by eye. Every symbol is encoded twice over -- by colour and by "
     "hatch -- so it survives greyscale printing and colour blindness."
 )
+#: Fixed, so a rebuild that changes nothing produces byte-identical fonts.
+#: Without it every build stamps head.created/modified with the current time and
+#: the committed binaries in dist/ and docs/ churn on every run.
+BUILD_DATE = "2026/01/01 00:00:00"
+BUILD_EPOCH = "1767225600"
+
 DESIGNER = "Tacio Medeiros"
 LICENSE = "SIL Open Font License 1.1"
 LICENSE_URL = "https://openfontlicense.org"
@@ -71,6 +77,7 @@ def _info(font: ufoLib2.Font, family: str) -> None:
     info.postscriptUnderlineThickness = 50
     info.postscriptUnderlinePosition = -150
 
+    info.openTypeHeadCreated = BUILD_DATE
     info.openTypeNameDesigner = DESIGNER
     info.openTypeNameDescription = DESCRIPTION
     info.openTypeNameLicense = LICENSE

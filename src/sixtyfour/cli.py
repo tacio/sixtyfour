@@ -13,6 +13,8 @@ from .spec import REPO_ROOT, as_records
 
 SVG_DIR = REPO_ROOT / "svg"
 DIST_DIR = REPO_ROOT / "dist"
+#: GitHub Pages serves from /docs on the default branch with no extra config.
+DOCS_DIR = REPO_ROOT / "docs"
 
 COLOR_STEM = "SixtyFour-Regular"
 MONO_STEM = "SixtyFourMono-Regular"
@@ -34,9 +36,16 @@ def write_mapping(out_dir: Path) -> list[Path]:
     return [as_json, as_tsv]
 
 
-def build(svg_dir: Path = SVG_DIR, dist_dir: Path = DIST_DIR, clean: bool = False) -> list[Path]:
-    if clean and dist_dir.exists():
-        shutil.rmtree(dist_dir)
+def build(
+    svg_dir: Path = SVG_DIR,
+    dist_dir: Path = DIST_DIR,
+    docs_dir: Path = DOCS_DIR,
+    clean: bool = False,
+) -> list[Path]:
+    if clean:
+        for stale in (dist_dir, docs_dir):
+            if stale.exists():
+                shutil.rmtree(stale)
     written: list[Path] = []
 
     written += svgout.write_all(svg_dir)
@@ -51,6 +60,8 @@ def build(svg_dir: Path = SVG_DIR, dist_dir: Path = DIST_DIR, clean: bool = Fals
     specimen_png = dist_dir / "specimen.png"
     render.contact_sheet(dist_dir / f"{COLOR_STEM}.ttf", cell=104, color=True).save(specimen_png)
     written.append(specimen_png)
+
+    written += web.write_pages(docs_dir, dist_dir)
     return written
 
 
@@ -58,10 +69,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Build the Sixty Four font and its assets.")
     parser.add_argument("--svg-dir", type=Path, default=SVG_DIR)
     parser.add_argument("--dist-dir", type=Path, default=DIST_DIR)
-    parser.add_argument("--clean", action="store_true", help="empty dist/ first")
+    parser.add_argument("--docs-dir", type=Path, default=DOCS_DIR)
+    parser.add_argument("--clean", action="store_true", help="empty dist/ and docs/ first")
     args = parser.parse_args()
 
-    written = build(args.svg_dir, args.dist_dir, args.clean)
+    written = build(args.svg_dir, args.dist_dir, args.docs_dir, args.clean)
     svgs = sum(1 for p in written if p.suffix == ".svg")
     print(f"{svgs} SVGs -> {args.svg_dir}")
     for path in written:
