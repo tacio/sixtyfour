@@ -36,12 +36,20 @@ FILL_LABELS = {
     "lines": ("Red", "Line"),
 }
 
+#: How a tier is said aloud. Deliberately shorter and plainer than the sheet's
+#: "No fill" / "Total fill" -- these are for dictating a string over a phone.
+SPOKEN_FILL = {"none": "blank", "solid": "fill", "dots": "dots", "lines": "lines"}
+
+#: The order the tiers are recited in, which is the ink ramp rather than the
+#: value order: blank, lines, dots, fill.
+SPOKEN_ORDER = ("none", "lines", "dots", "solid")
+
 #: The four classes of four symbols each. Index is `(value // 4) % 4`.
 CLASSES = ("Shapes", "Suits", "Elements", "Powers")
 SYMBOLS = {
     "Shapes": ("Cross", "Circle", "Triangle", "Square"),
     "Suits": ("Clubs", "Diamonds", "Hearts", "Spades"),
-    "Elements": ("Drop", "Flame", "Cloud", "Ingot"),
+    "Elements": ("Water", "Fire", "Air", "Earth"),
     "Powers": ("Mushroom", "Flower", "Star", "Moon"),
 }
 
@@ -70,6 +78,11 @@ class Entry:
     @property
     def hatch_name(self) -> str:
         return FILL_LABELS[self.fill][1]
+
+    @property
+    def spoken(self) -> str:
+        """How you say this symbol out loud: shape first, then texture."""
+        return f"{self.symbol.lower()} {SPOKEN_FILL[self.fill]}"
 
     @property
     def glyph_name(self) -> str:
@@ -148,6 +161,7 @@ def as_records() -> list[dict[str, object]]:
             "color": entry.color_name,
             "hatch": entry.hatch_name,
             "fill": entry.fill,
+            "spoken": entry.spoken,
             "glyph": entry.glyph_name,
             "svg": entry.svg_filename,
         }

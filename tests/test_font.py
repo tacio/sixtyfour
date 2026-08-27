@@ -9,6 +9,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import itertools
+import json
 import re
 import string
 from pathlib import Path
@@ -324,12 +325,60 @@ def test_no_unsubstituted_template_placeholders(pages_html):
 def test_artifact_variant_offers_no_downloads():
     """An Artifact viewer is sandboxed against downloads the page starts itself,
     so the section must never reach that build."""
-    body = web.specimen_html(DIST_DIR / f"{COLOR_STEM}.woff2", standalone=False)
+    body = web.specimen_html(
+        DIST_DIR / f"{COLOR_STEM}.woff2",
+        DIST_DIR / f"{MONO_STEM}.woff2",
+        standalone=False,
+    )
     assert "download" not in body
     assert "<!doctype" not in body.lower()
 
 
-# --- 9. reproducibility ------------------------------------------------------
+# --- 9. the spoken convention ------------------------------------------------
+
+
+def test_elements_are_the_classical_four():
+    assert spec.SYMBOLS["Elements"] == ("Water", "Fire", "Air", "Earth")
+
+
+def test_every_symbol_is_two_plain_words():
+    """The whole point of the spoken form is that it is dictatable."""
+    for entry in TABLE:
+        shape, texture = entry.spoken.split(" ")
+        assert shape == entry.symbol.lower()
+        assert texture == spec.SPOKEN_FILL[entry.fill]
+    assert len({e.spoken for e in TABLE}) == 64
+
+
+def test_spoken_tiers_are_recited_in_ink_order():
+    assert spec.SPOKEN_ORDER == INK_ORDER
+
+
+def test_mapping_files_carry_the_spoken_name():
+    records = spec.as_records()
+    assert all(r["spoken"] for r in records)
+    shipped = json.loads((DIST_DIR / "mapping.json").read_text(encoding="utf-8"))
+    assert [r["spoken"] for r in shipped] == [r["spoken"] for r in records]
+
+
+def test_page_shows_the_colourless_face(pages_html):
+    """The monochrome font is a shipped deliverable; showing it means embedding
+    it, not just filtering the colour one."""
+    assert pages_html.count("data:font/woff2;base64,") == 2
+    assert f'class="mono-run {web.MONO_CSS_CLASS}"' in pages_html
+    assert BASE64_ALPHABET in pages_html
+
+
+def test_page_teaches_the_spoken_names(pages_html):
+    said = set(re.findall(r'<span class="say">([^<]+)</span>', pages_html))
+    assert said, "expected spoken names on the page"
+    assert said <= {e.spoken for e in TABLE}
+    # the four texture words are established before they are used
+    for word in spec.SPOKEN_FILL.values():
+        assert f'<span class="word">{word}</span>' in pages_html
+
+
+# --- 10. reproducibility ------------------------------------------------------
 
 
 def test_two_builds_produce_byte_identical_fonts(tmp_path):

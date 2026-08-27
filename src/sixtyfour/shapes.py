@@ -41,10 +41,10 @@ OPTICAL: dict[str, float] = {
     "Diamonds": 1.06,
     "Hearts": 1.02,
     "Spades": 1.02,
-    "Drop": 1.04,
-    "Flame": 1.02,
-    "Cloud": 1.04,
-    "Ingot": 1.00,
+    "Water": 1.04,
+    "Fire": 1.02,
+    "Air": 1.04,
+    "Earth": 1.00,
     "Mushroom": 1.02,
     "Flower": 1.04,
     "Star": 1.10,
@@ -53,7 +53,7 @@ OPTICAL: dict[str, float] = {
 
 #: Downward shift in design units applied after centring.
 NUDGE_Y: dict[str, float] = {
-    "Flame": 10.0,
+    "Fire": 10.0,
     "Mushroom": 12.0,
     "Clubs": -8.0,
     "Spades": -6.0,
@@ -93,14 +93,14 @@ _HEARTS = (
     "C 242.242 568.722 327.71 689.287 499.708 820.741 Z"
 )
 
-_DROP = (
+_WATER = (
     "M 798 577.618 C 798 749.086 664.582 888.087 500 888.087 C 335.419 888.087 "
     "202 749.086 202 577.618 C 202 536.446 209.692 497.144 223.662 461.192 "
     "C 267.869 347.412 500 111.914 500 111.914 C 500 111.914 732.131 347.412 "
     "776.339 461.192 C 790.308 497.144 798 536.446 798 577.618 Z"
 )
 
-_FLAME = (
+_FIRE = (
     "M 586.244 102.662 C 587.55 101.879 589.243 102.754 589.293 104.235 "
     "C 589.298 104.408 589.281 104.58 589.238 104.748 C 581.421 134.589 "
     "542.998 307.381 681.886 419.526 C 817.613 529.265 821.77 694.357 720.641 804.577 "
@@ -162,8 +162,8 @@ def _spades() -> pathops.Path:
     )
 
 
-def _cloud() -> pathops.Path:
-    """Overlapping discs on a flat base -- the classic cumulus silhouette."""
+def _air() -> pathops.Path:
+    """A cloud: overlapping discs on a flat base."""
     return g.union(
         g.rounded_rect(190, 520, 810, 706, 92),
         g.circle(370, 476, 168),
@@ -172,8 +172,8 @@ def _cloud() -> pathops.Path:
     )
 
 
-def _ingot() -> pathops.Path:
-    """A cast bar: top plate and front face, held apart by a visible seam.
+def _earth() -> pathops.Path:
+    """An ingot: top plate and front face, held apart by a visible seam.
 
     Merging the two into one outline would collapse to a plain trapezoid and
     lose the read entirely, so they stay as two contours with a gap.
@@ -227,10 +227,10 @@ _BUILDERS = {
     "Diamonds": lambda: g.from_d(_DIAMONDS),
     "Hearts": lambda: g.from_d(_HEARTS),
     "Spades": _spades,
-    "Drop": lambda: g.from_d(_DROP),
-    "Flame": lambda: g.from_d(_FLAME),
-    "Cloud": _cloud,
-    "Ingot": _ingot,
+    "Water": lambda: g.from_d(_WATER),
+    "Fire": lambda: g.from_d(_FIRE),
+    "Air": _air,
+    "Earth": _earth,
     "Mushroom": _mushroom,
     "Flower": _flower,
     "Star": _star,

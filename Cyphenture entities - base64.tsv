@@ -7,10 +7,10 @@ Unicode	Value	Char	Class	Symbol	Color	Hatch	Status
 46	5	F	Suits	Diamonds	White	No fill	svg created
 47	6	G	Suits	Hearts	White	No fill	svg created
 48	7	H	Suits	Spades	White	No fill	
-49	8	I	Elements	Drop	White	No fill	svg created
-4A	9	J	Elements	Flame	White	No fill	svg created
-4B	10	K	Elements	Cloud	White	No fill	svg created
-4C	11	L	Elements	Ingot	White	No fill	
+49	8	I	Elements	Water	White	No fill	svg created
+4A	9	J	Elements	Fire	White	No fill	svg created
+4B	10	K	Elements	Air	White	No fill	svg created
+4C	11	L	Elements	Earth	White	No fill	
 4D	12	M	Powers	Mushroom	White	No fill	
 4E	13	N	Powers	Flower	White	No fill	
 4F	14	O	Powers	Star	White	No fill	
@@ -23,10 +23,10 @@ Unicode	Value	Char	Class	Symbol	Color	Hatch	Status
 56	21	V	Suits	Diamonds	Black	Total fill	svg created
 57	22	W	Suits	Hearts	Black	Total fill	svg created
 58	23	X	Suits	Spades	Black	Total fill	
-59	24	Y	Elements	Drop	Black	Total fill	svg created
-5A	25	Z	Elements	Flame	Black	Total fill	svg created
-61	26	a	Elements	Cloud	Black	Total fill	svg created
-62	27	b	Elements	Ingot	Black	Total fill	
+59	24	Y	Elements	Water	Black	Total fill	svg created
+5A	25	Z	Elements	Fire	Black	Total fill	svg created
+61	26	a	Elements	Air	Black	Total fill	svg created
+62	27	b	Elements	Earth	Black	Total fill	
 63	28	c	Powers	Mushroom	Black	Total fill	
 64	29	d	Powers	Flower	Black	Total fill	
 65	30	e	Powers	Star	Black	Total fill	
@@ -39,10 +39,10 @@ Unicode	Value	Char	Class	Symbol	Color	Hatch	Status
 6C	37	l	Suits	Diamonds	Blue	Dots	svg created
 6D	38	m	Suits	Hearts	Blue	Dots	svg created
 6E	39	n	Suits	Spades	Blue	Dots	
-6F	40	o	Elements	Drop	Blue	Dots	svg created
-70	41	p	Elements	Flame	Blue	Dots	svg created
-71	42	q	Elements	Cloud	Blue	Dots	svg created
-72	43	r	Elements	Ingot	Blue	Dots	
+6F	40	o	Elements	Water	Blue	Dots	svg created
+70	41	p	Elements	Fire	Blue	Dots	svg created
+71	42	q	Elements	Air	Blue	Dots	svg created
+72	43	r	Elements	Earth	Blue	Dots	
 73	44	s	Powers	Mushroom	Blue	Dots	
 74	45	t	Powers	Flower	Blue	Dots	
 75	46	u	Powers	Star	Blue	Dots	
@@ -55,10 +55,10 @@ Unicode	Value	Char	Class	Symbol	Color	Hatch	Status
 31	53	1	Suits	Diamonds	Red	Line	svg created
 32	54	2	Suits	Hearts	Red	Line	svg created
 33	55	3	Suits	Spades	Red	Line	
-34	56	4	Elements	Drop	Red	Line	svg created
-35	57	5	Elements	Flame	Red	Line	svg created
-36	58	6	Elements	Cloud	Red	Line	svg created
-37	59	7	Elements	Ingot	Red	Line	
+34	56	4	Elements	Water	Red	Line	svg created
+35	57	5	Elements	Fire	Red	Line	svg created
+36	58	6	Elements	Air	Red	Line	svg created
+37	59	7	Elements	Earth	Red	Line	
 38	60	8	Powers	Mushroom	Red	Line	
 39	61	9	Powers	Flower	Red	Line	
 002B	62	+	Powers	Star	Red	Line	

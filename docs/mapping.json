@@ -8,6 +8,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "cross blank",
     "glyph": "cross.none",
     "svg": "u0041.svg",
     "urlsafe_alias": ""
@@ -21,6 +22,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "circle blank",
     "glyph": "circle.none",
     "svg": "u0042.svg",
     "urlsafe_alias": ""
@@ -34,6 +36,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "triangle blank",
     "glyph": "triangle.none",
     "svg": "u0043.svg",
     "urlsafe_alias": ""
@@ -47,6 +50,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "square blank",
     "glyph": "square.none",
     "svg": "u0044.svg",
     "urlsafe_alias": ""
@@ -60,6 +64,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "clubs blank",
     "glyph": "clubs.none",
     "svg": "u0045.svg",
     "urlsafe_alias": ""
@@ -73,6 +78,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "diamonds blank",
     "glyph": "diamonds.none",
     "svg": "u0046.svg",
     "urlsafe_alias": ""
@@ -86,6 +92,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "hearts blank",
     "glyph": "hearts.none",
     "svg": "u0047.svg",
     "urlsafe_alias": ""
@@ -99,6 +106,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "spades blank",
     "glyph": "spades.none",
     "svg": "u0048.svg",
     "urlsafe_alias": ""
@@ -108,11 +116,12 @@
     "char": "I",
     "codepoint": "U+0049",
     "class": "Elements",
-    "symbol": "Drop",
+    "symbol": "Water",
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
-    "glyph": "drop.none",
+    "spoken": "water blank",
+    "glyph": "water.none",
     "svg": "u0049.svg",
     "urlsafe_alias": ""
   },
@@ -121,11 +130,12 @@
     "char": "J",
     "codepoint": "U+004A",
     "class": "Elements",
-    "symbol": "Flame",
+    "symbol": "Fire",
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
-    "glyph": "flame.none",
+    "spoken": "fire blank",
+    "glyph": "fire.none",
     "svg": "u004A.svg",
     "urlsafe_alias": ""
   },
@@ -134,11 +144,12 @@
     "char": "K",
     "codepoint": "U+004B",
     "class": "Elements",
-    "symbol": "Cloud",
+    "symbol": "Air",
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
-    "glyph": "cloud.none",
+    "spoken": "air blank",
+    "glyph": "air.none",
     "svg": "u004B.svg",
     "urlsafe_alias": ""
   },
@@ -147,11 +158,12 @@
     "char": "L",
     "codepoint": "U+004C",
     "class": "Elements",
-    "symbol": "Ingot",
+    "symbol": "Earth",
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
-    "glyph": "ingot.none",
+    "spoken": "earth blank",
+    "glyph": "earth.none",
     "svg": "u004C.svg",
     "urlsafe_alias": ""
   },
@@ -164,6 +176,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "mushroom blank",
     "glyph": "mushroom.none",
     "svg": "u004D.svg",
     "urlsafe_alias": ""
@@ -177,6 +190,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "flower blank",
     "glyph": "flower.none",
     "svg": "u004E.svg",
     "urlsafe_alias": ""
@@ -190,6 +204,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "star blank",
     "glyph": "star.none",
     "svg": "u004F.svg",
     "urlsafe_alias": ""
@@ -203,6 +218,7 @@
     "color": "White",
     "hatch": "No fill",
     "fill": "none",
+    "spoken": "moon blank",
     "glyph": "moon.none",
     "svg": "u0050.svg",
     "urlsafe_alias": ""
@@ -216,6 +232,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "cross fill",
     "glyph": "cross.solid",
     "svg": "u0051.svg",
     "urlsafe_alias": ""
@@ -229,6 +246,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "circle fill",
     "glyph": "circle.solid",
     "svg": "u0052.svg",
     "urlsafe_alias": ""
@@ -242,6 +260,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "triangle fill",
     "glyph": "triangle.solid",
     "svg": "u0053.svg",
     "urlsafe_alias": ""
@@ -255,6 +274,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "square fill",
     "glyph": "square.solid",
     "svg": "u0054.svg",
     "urlsafe_alias": ""
@@ -268,6 +288,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "clubs fill",
     "glyph": "clubs.solid",
     "svg": "u0055.svg",
     "urlsafe_alias": ""
@@ -281,6 +302,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "diamonds fill",
     "glyph": "diamonds.solid",
     "svg": "u0056.svg",
     "urlsafe_alias": ""
@@ -294,6 +316,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "hearts fill",
     "glyph": "hearts.solid",
     "svg": "u0057.svg",
     "urlsafe_alias": ""
@@ -307,6 +330,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "spades fill",
     "glyph": "spades.solid",
     "svg": "u0058.svg",
     "urlsafe_alias": ""
@@ -316,11 +340,12 @@
     "char": "Y",
     "codepoint": "U+0059",
     "class": "Elements",
-    "symbol": "Drop",
+    "symbol": "Water",
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
-    "glyph": "drop.solid",
+    "spoken": "water fill",
+    "glyph": "water.solid",
     "svg": "u0059.svg",
     "urlsafe_alias": ""
   },
@@ -329,11 +354,12 @@
     "char": "Z",
     "codepoint": "U+005A",
     "class": "Elements",
-    "symbol": "Flame",
+    "symbol": "Fire",
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
-    "glyph": "flame.solid",
+    "spoken": "fire fill",
+    "glyph": "fire.solid",
     "svg": "u005A.svg",
     "urlsafe_alias": ""
   },
@@ -342,11 +368,12 @@
     "char": "a",
     "codepoint": "U+0061",
     "class": "Elements",
-    "symbol": "Cloud",
+    "symbol": "Air",
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
-    "glyph": "cloud.solid",
+    "spoken": "air fill",
+    "glyph": "air.solid",
     "svg": "u0061.svg",
     "urlsafe_alias": ""
   },
@@ -355,11 +382,12 @@
     "char": "b",
     "codepoint": "U+0062",
     "class": "Elements",
-    "symbol": "Ingot",
+    "symbol": "Earth",
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
-    "glyph": "ingot.solid",
+    "spoken": "earth fill",
+    "glyph": "earth.solid",
     "svg": "u0062.svg",
     "urlsafe_alias": ""
   },
@@ -372,6 +400,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "mushroom fill",
     "glyph": "mushroom.solid",
     "svg": "u0063.svg",
     "urlsafe_alias": ""
@@ -385,6 +414,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "flower fill",
     "glyph": "flower.solid",
     "svg": "u0064.svg",
     "urlsafe_alias": ""
@@ -398,6 +428,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "star fill",
     "glyph": "star.solid",
     "svg": "u0065.svg",
     "urlsafe_alias": ""
@@ -411,6 +442,7 @@
     "color": "Black",
     "hatch": "Total fill",
     "fill": "solid",
+    "spoken": "moon fill",
     "glyph": "moon.solid",
     "svg": "u0066.svg",
     "urlsafe_alias": ""
@@ -424,6 +456,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "cross dots",
     "glyph": "cross.dots",
     "svg": "u0067.svg",
     "urlsafe_alias": ""
@@ -437,6 +470,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "circle dots",
     "glyph": "circle.dots",
     "svg": "u0068.svg",
     "urlsafe_alias": ""
@@ -450,6 +484,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "triangle dots",
     "glyph": "triangle.dots",
     "svg": "u0069.svg",
     "urlsafe_alias": ""
@@ -463,6 +498,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "square dots",
     "glyph": "square.dots",
     "svg": "u006A.svg",
     "urlsafe_alias": ""
@@ -476,6 +512,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "clubs dots",
     "glyph": "clubs.dots",
     "svg": "u006B.svg",
     "urlsafe_alias": ""
@@ -489,6 +526,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "diamonds dots",
     "glyph": "diamonds.dots",
     "svg": "u006C.svg",
     "urlsafe_alias": ""
@@ -502,6 +540,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "hearts dots",
     "glyph": "hearts.dots",
     "svg": "u006D.svg",
     "urlsafe_alias": ""
@@ -515,6 +554,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "spades dots",
     "glyph": "spades.dots",
     "svg": "u006E.svg",
     "urlsafe_alias": ""
@@ -524,11 +564,12 @@
     "char": "o",
     "codepoint": "U+006F",
     "class": "Elements",
-    "symbol": "Drop",
+    "symbol": "Water",
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
-    "glyph": "drop.dots",
+    "spoken": "water dots",
+    "glyph": "water.dots",
     "svg": "u006F.svg",
     "urlsafe_alias": ""
   },
@@ -537,11 +578,12 @@
     "char": "p",
     "codepoint": "U+0070",
     "class": "Elements",
-    "symbol": "Flame",
+    "symbol": "Fire",
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
-    "glyph": "flame.dots",
+    "spoken": "fire dots",
+    "glyph": "fire.dots",
     "svg": "u0070.svg",
     "urlsafe_alias": ""
   },
@@ -550,11 +592,12 @@
     "char": "q",
     "codepoint": "U+0071",
     "class": "Elements",
-    "symbol": "Cloud",
+    "symbol": "Air",
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
-    "glyph": "cloud.dots",
+    "spoken": "air dots",
+    "glyph": "air.dots",
     "svg": "u0071.svg",
     "urlsafe_alias": ""
   },
@@ -563,11 +606,12 @@
     "char": "r",
     "codepoint": "U+0072",
     "class": "Elements",
-    "symbol": "Ingot",
+    "symbol": "Earth",
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
-    "glyph": "ingot.dots",
+    "spoken": "earth dots",
+    "glyph": "earth.dots",
     "svg": "u0072.svg",
     "urlsafe_alias": ""
   },
@@ -580,6 +624,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "mushroom dots",
     "glyph": "mushroom.dots",
     "svg": "u0073.svg",
     "urlsafe_alias": ""
@@ -593,6 +638,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "flower dots",
     "glyph": "flower.dots",
     "svg": "u0074.svg",
     "urlsafe_alias": ""
@@ -606,6 +652,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "star dots",
     "glyph": "star.dots",
     "svg": "u0075.svg",
     "urlsafe_alias": ""
@@ -619,6 +666,7 @@
     "color": "Blue",
     "hatch": "Dots",
     "fill": "dots",
+    "spoken": "moon dots",
     "glyph": "moon.dots",
     "svg": "u0076.svg",
     "urlsafe_alias": ""
@@ -632,6 +680,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "cross lines",
     "glyph": "cross.lines",
     "svg": "u0077.svg",
     "urlsafe_alias": ""
@@ -645,6 +694,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "circle lines",
     "glyph": "circle.lines",
     "svg": "u0078.svg",
     "urlsafe_alias": ""
@@ -658,6 +708,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "triangle lines",
     "glyph": "triangle.lines",
     "svg": "u0079.svg",
     "urlsafe_alias": ""
@@ -671,6 +722,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "square lines",
     "glyph": "square.lines",
     "svg": "u007A.svg",
     "urlsafe_alias": ""
@@ -684,6 +736,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "clubs lines",
     "glyph": "clubs.lines",
     "svg": "u0030.svg",
     "urlsafe_alias": ""
@@ -697,6 +750,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "diamonds lines",
     "glyph": "diamonds.lines",
     "svg": "u0031.svg",
     "urlsafe_alias": ""
@@ -710,6 +764,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "hearts lines",
     "glyph": "hearts.lines",
     "svg": "u0032.svg",
     "urlsafe_alias": ""
@@ -723,6 +778,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "spades lines",
     "glyph": "spades.lines",
     "svg": "u0033.svg",
     "urlsafe_alias": ""
@@ -732,11 +788,12 @@
     "char": "4",
     "codepoint": "U+0034",
     "class": "Elements",
-    "symbol": "Drop",
+    "symbol": "Water",
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
-    "glyph": "drop.lines",
+    "spoken": "water lines",
+    "glyph": "water.lines",
     "svg": "u0034.svg",
     "urlsafe_alias": ""
   },
@@ -745,11 +802,12 @@
     "char": "5",
     "codepoint": "U+0035",
     "class": "Elements",
-    "symbol": "Flame",
+    "symbol": "Fire",
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
-    "glyph": "flame.lines",
+    "spoken": "fire lines",
+    "glyph": "fire.lines",
     "svg": "u0035.svg",
     "urlsafe_alias": ""
   },
@@ -758,11 +816,12 @@
     "char": "6",
     "codepoint": "U+0036",
     "class": "Elements",
-    "symbol": "Cloud",
+    "symbol": "Air",
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
-    "glyph": "cloud.lines",
+    "spoken": "air lines",
+    "glyph": "air.lines",
     "svg": "u0036.svg",
     "urlsafe_alias": ""
   },
@@ -771,11 +830,12 @@
     "char": "7",
     "codepoint": "U+0037",
     "class": "Elements",
-    "symbol": "Ingot",
+    "symbol": "Earth",
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
-    "glyph": "ingot.lines",
+    "spoken": "earth lines",
+    "glyph": "earth.lines",
     "svg": "u0037.svg",
     "urlsafe_alias": ""
   },
@@ -788,6 +848,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "mushroom lines",
     "glyph": "mushroom.lines",
     "svg": "u0038.svg",
     "urlsafe_alias": ""
@@ -801,6 +862,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "flower lines",
     "glyph": "flower.lines",
     "svg": "u0039.svg",
     "urlsafe_alias": ""
@@ -814,6 +876,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "star lines",
     "glyph": "star.lines",
     "svg": "u002B.svg",
     "urlsafe_alias": "-"
@@ -827,6 +890,7 @@
     "color": "Red",
     "hatch": "Line",
     "fill": "lines",
+    "spoken": "moon lines",
     "glyph": "moon.lines",
     "svg": "u002F.svg",
     "urlsafe_alias": "_"

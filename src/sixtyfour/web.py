@@ -10,10 +10,21 @@ import base64
 import html
 from pathlib import Path
 
-from .spec import BASE64_ALPHABET, CLASSES, FILLS, SILHOUETTES, TABLE, URLSAFE_ALIASES
+from .spec import (
+    BASE64_ALPHABET,
+    BY_CHAR,
+    CLASSES,
+    FILLS,
+    SILHOUETTES,
+    SPOKEN_FILL,
+    SPOKEN_ORDER,
+    TABLE,
+    URLSAFE_ALIASES,
+)
 from .ufobuild import DESCRIPTION, FAMILY_NAME, MONO_FAMILY_NAME
 
 CSS_CLASS = "sixty-four"
+MONO_CSS_CLASS = "sixty-four-mono"
 PAGE_TITLE = "Sixty Four Alphabet"
 
 SAMPLE_TEXT = "Sixty Four makes base64 legible."
@@ -251,6 +262,39 @@ button.toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper)
 .switch button:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
 .switch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 
+/* --- spoken vocabulary --------------------------------------------------- */
+
+.tierkey { display: flex; gap: 14px; flex-wrap: wrap; }
+.tierkey .item {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  flex: 1 1 90px; padding: 18px 10px 14px;
+  background: var(--raised); border: 1px solid var(--rule); border-radius: 4px;
+}
+.tierkey .glyph { font-size: 46px; line-height: 1; }
+.tierkey .word {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
+}
+.tierkey .gloss {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .62rem; color: var(--muted); text-align: center;
+}
+
+.dictation { display: flex; flex-wrap: wrap; gap: 10px; }
+.dictation .word {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  flex: 0 0 auto; min-width: 96px; padding: 14px 12px 11px;
+  background: var(--raised); border: 1px solid var(--rule); border-radius: 4px;
+}
+.dictation .glyph { font-size: 40px; line-height: 1; }
+.dictation .say { font-size: .84rem; white-space: nowrap; }
+.dictation .code {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .64rem; color: var(--muted); font-variant-numeric: tabular-nums;
+}
+
+.mono-run { font-size: clamp(24px, 3vw, 34px); line-height: 1.4; }
+
 /* --- both grounds -------------------------------------------------------- */
 
 .grounds { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
@@ -377,7 +421,10 @@ def _matrix() -> str:
         cells = []
         for column in range(16):
             entry = TABLE[fill_index * 16 + column]
-            title = f"{entry.char} = {entry.value} · {entry.klass} / {entry.symbol} · {entry.color_name} / {entry.hatch_name}"
+            title = (
+                f"{entry.spoken} \u2014 {entry.char} = {entry.value} \u00b7 "
+                f"{entry.klass} \u00b7 {entry.color_name} / {entry.hatch_name}"
+            )
             cells.append(
                 f'<td><div class="cell" tabindex="0" title="{html.escape(title)}">'
                 f'<span class="sym {CSS_CLASS}">{html.escape(entry.char)}</span>'
@@ -409,6 +456,7 @@ def _full_table() -> str:
             f'<td class="mono">U+{entry.codepoint:04X}</td>'
             f"<td>{html.escape(entry.klass)}</td>"
             f"<td>{html.escape(entry.symbol)}</td>"
+            f"<td>{html.escape(entry.spoken)}</td>"
             f'<td><span class="swatch"><i style="background:{_swatch_colour(entry.fill)}"></i>'
             f"{html.escape(entry.color_name)}</span></td>"
             f"<td>{html.escape(entry.hatch_name)}</td>"
@@ -417,7 +465,10 @@ def _full_table() -> str:
         )
     heads = "".join(
         f"<th>{h}</th>"
-        for h in ("Symbol", "Char", "Value", "Codepoint", "Class", "Shape", "Colour", "Hatch", "URL-safe")
+        for h in (
+            "Symbol", "Char", "Value", "Codepoint", "Class", "Shape",
+            "Say it", "Colour", "Hatch", "URL-safe",
+        )
     )
     return (
         '<div class="table-scroll"><table class="full">'
@@ -542,6 +593,34 @@ def _grounds() -> str:
     )
 
 
+def _tier_key(css_class: str = CSS_CLASS, shape_index: int = 0) -> str:
+    """The four texture words, in the order they are recited: blank, lines, dots, fill."""
+    items = []
+    for fill in SPOKEN_ORDER:
+        entry = TABLE[FILLS.index(fill) * 16 + shape_index]
+        items.append(
+            f'<div class="item"><span class="glyph {css_class}">{html.escape(entry.char)}</span>'
+            f'<span class="word">{html.escape(SPOKEN_FILL[fill])}</span>'
+            f'<span class="gloss">{html.escape(entry.hatch_name)}</span></div>'
+        )
+    return f'<div class="tierkey">{"".join(items)}</div>'
+
+
+def _dictation(text: str) -> str:
+    """A run of base64 with each symbol's spoken name under it."""
+    words = []
+    for char in text:
+        entry = BY_CHAR.get(char)
+        if entry is None:
+            continue
+        words.append(
+            f'<div class="word"><span class="glyph {CSS_CLASS}">{html.escape(entry.char)}</span>'
+            f'<span class="say">{html.escape(entry.spoken)}</span>'
+            f'<span class="code">{html.escape(entry.char)} &middot; {entry.value}</span></div>'
+        )
+    return f'<div class="dictation">{"".join(words)}</div>'
+
+
 def _script() -> str:
     return """
 (function () {
@@ -607,13 +686,17 @@ def _script() -> str:
 """
 
 
-def _body(woff2: Path, downloads: str = "") -> str:
-    walk = TABLE[41]  # 'p' -- Flame, dots. A worked example with every field distinct.
+def _body(woff2: Path, mono_woff2: Path, downloads: str = "") -> str:
+    walk = TABLE[41]  # 'p' -- Fire, dots. A worked example with every field distinct.
     sizes = "".join(
         f'<div class="size-row"><span class="tag">{px}px</span>'
         f'<span class="run {CSS_CLASS}" style="font-size:{px}px">{html.escape(_encoded_sample())}</span></div>'
         for px in (14, 20, 32, 56)
     )
+    # One per class, one per texture -- the whole system in four words.
+    spoken_examples = "".join(BASE64_ALPHABET[v] for v in (0, 21, 42, 61))
+    dictation_sample = _encoded_sample()[:8]
+
     # Only the hosted build has a downloads section; keep its absence from
     # leaving a hole in the markup.
     downloads_block = f"  {downloads}\n\n" if downloads else ""
@@ -629,12 +712,18 @@ def _body(woff2: Path, downloads: str = "") -> str:
   src: url({_data_uri(woff2)}) format("woff2");
   font-weight: 400; font-style: normal; font-display: swap;
 }}
-.{CSS_CLASS} {{
-  font-family: "{FAMILY_NAME}", ui-monospace, monospace;
+@font-face {{
+  font-family: "{MONO_FAMILY_NAME}";
+  src: url({_data_uri(mono_woff2)}) format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}}
+.{CSS_CLASS}, .{MONO_CSS_CLASS} {{
   font-variant-ligatures: none;
   font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
   word-break: break-all;
 }}
+.{CSS_CLASS} {{ font-family: "{FAMILY_NAME}", ui-monospace, monospace; }}
+.{MONO_CSS_CLASS} {{ font-family: "{MONO_FAMILY_NAME}", ui-monospace, monospace; }}
 @font-palette-values --sf-dark {{
   font-family: "{FAMILY_NAME}";
   base-palette: 1;
@@ -743,6 +832,35 @@ def _body(woff2: Path, downloads: str = "") -> str:
   </section>
 
   <section>
+    <p class="eyebrow">Saying them out loud</p>
+    <h2>Shape, then texture.</h2>
+    <p class="lede" style="margin-top:14px">Name the shape, then the texture. Four texture words
+    cover every tier &mdash; <b>blank</b>, <b>lines</b>, <b>dots</b>, <b>fill</b> &mdash; so any of
+    the sixty-four is two plain words, and a string can be read down a phone line without anyone
+    spelling anything.</p>
+    <div style="margin-top:26px" data-desaturable>{_tier_key()}</div>
+    <p class="lede" style="margin-top:34px">One from each class, one of each texture:</p>
+    <div style="margin-top:16px" data-desaturable>{_dictation(spoken_examples)}</div>
+    <p class="lede" style="margin-top:34px">And a real string, read straight through:</p>
+    <div style="margin-top:16px" data-desaturable>{_dictation(dictation_sample)}</div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Without colour</p>
+    <h2>The hatch carries it alone.</h2>
+    <p class="lede" style="margin-top:14px">This section is set in <code>{MONO_FAMILY_NAME}</code>,
+    which has no colour tables at all &mdash; nothing to strip, nothing to fall back from. The
+    texture is doing all the work, and all sixty-four stay distinct. This is what a photocopy, a
+    laser printer, or an e-ink screen gives you.</p>
+    <div style="margin-top:26px">{_tier_key(MONO_CSS_CLASS)}</div>
+    <p class="lede" style="margin-top:34px">All sixty-four, in value order:</p>
+    <div class="mono-run {MONO_CSS_CLASS}" style="margin-top:14px">{html.escape(BASE64_ALPHABET)}</div>
+    <p style="margin-top:26px">Ships as <code>SixtyFourMono-Regular.ttf</code> and
+    <code>sixty-four-mono.css</code>. The colour font keeps these same outlines as its fallback, so
+    a renderer that cannot do COLR lands here rather than on nothing.</p>
+  </section>
+
+  <section>
     <p class="eyebrow">At size</p>
     <h2>It holds down to body text.</h2>
     <div class="sizes" style="margin-top:28px" data-desaturable>{sizes}</div>
@@ -787,14 +905,16 @@ def _encoded_sample() -> str:
     return base64.b64encode(SAMPLE_TEXT.encode("utf-8")).decode("ascii")
 
 
-def specimen_html(woff2: Path, standalone: bool = True, downloads: str = "") -> str:
+def specimen_html(
+    woff2: Path, mono_woff2: Path, standalone: bool = True, downloads: str = ""
+) -> str:
     """The specimen page.
 
     `standalone` wraps it in a full document; an Artifact supplies its own
     skeleton and takes the body alone. `downloads` is only ever passed for a
     hosted page -- an Artifact viewer cannot save a file the page offers it.
     """
-    body = _body(woff2, downloads)
+    body = _body(woff2, mono_woff2, downloads)
     if not standalone:
         return f"<title>{PAGE_TITLE}</title>\n{body}"
     description = html.escape(DESCRIPTION)
@@ -830,7 +950,7 @@ def write_all(out_dir: Path, color_woff2: Path, mono_woff2: Path) -> list[Path]:
     written.append(mono_css)
 
     page = out_dir / "specimen.html"
-    page.write_text(specimen_html(color_woff2, standalone=True), encoding="utf-8")
+    page.write_text(specimen_html(color_woff2, mono_woff2, standalone=True), encoding="utf-8")
     written.append(page)
     return written
 
@@ -863,6 +983,7 @@ def write_pages(docs_dir: Path, dist_dir: Path) -> list[Path]:
     index.write_text(
         specimen_html(
             dist_dir / "SixtyFour-Regular.woff2",
+            dist_dir / "SixtyFourMono-Regular.woff2",
             standalone=True,
             downloads=_downloads(docs_dir),
         ),
