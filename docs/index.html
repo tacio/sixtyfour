@@ -252,6 +252,31 @@ button.toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper)
 
 .mono-run { font-size: clamp(24px, 3vw, 34px); line-height: 1.4; }
 
+/* --- graceful degradation ------------------------------------------------ */
+
+.degrade { display: flex; flex-direction: column; gap: 12px; }
+.degrade .row {
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--raised); border: 1px solid var(--rule); border-radius: 4px;
+  padding: 16px 18px;
+}
+.degrade .tag {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+.degrade .text { overflow-x: auto; }
+.degrade .text.symbols { font-size: clamp(26px, 3.4vw, 36px); line-height: 1.25; }
+/* The declared fallback stack, shown as a viewer without the font would get it. */
+.degrade .text.plain {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 1.05rem; color: var(--ink); word-break: break-all;
+}
+.status {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .76rem; color: var(--muted); overflow-wrap: anywhere;
+}
+.status b { color: var(--ink); font-weight: 500; }
+
 /* --- both grounds -------------------------------------------------------- */
 
 .grounds { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
@@ -498,6 +523,50 @@ footer {
   </section>
 
   <section>
+    <p class="eyebrow">If the font never loads</p>
+    <h2>It degrades to itself.</h2>
+    <p class="lede" style="margin-top:14px">Nothing here is an image, an icon set, or a
+    substitution. The characters underneath are ordinary base64 &mdash; the font only changes how
+    they are drawn. Take it away and you are left with exactly the string you started with, which
+    is not true of any approach that swaps the text for pictures.</p>
+    <div class="degrade" style="margin-top:26px">
+      <div class="row">
+        <span class="tag">With the font</span>
+        <div class="text symbols sixty-four" id="sf-degrade-symbols" data-desaturable>dGhlIHRleHQgaXMgc3RpbGwgYmFzZTY0</div>
+      </div>
+      <div class="row">
+        <span class="tag">Font unavailable &mdash; the same element, same characters</span>
+        <div class="text plain">dGhlIHRleHQgaXMgc3RpbGwgYmFzZTY0</div>
+      </div>
+    </div>
+    <div class="controls" style="margin-top:18px">
+      <button class="toggle" id="sf-copy" type="button">Copy the symbols</button>
+      <span class="status" id="sf-copy-status" role="status" aria-live="polite"></span>
+    </div>
+    <div class="decode" style="margin-top:34px">
+      <div class="step">
+        <span class="k">Select and copy</span>
+        <p>Drag across the symbols and you have selected base64. What lands on the clipboard is the
+        string, not a row of pictures.</p>
+      </div>
+      <div class="step">
+        <span class="k">Find in page</span>
+        <p>Ctrl+F searches the real characters. So does your editor, your terminal, and
+        <code>grep</code>.</p>
+      </div>
+      <div class="step">
+        <span class="k">Screen readers</span>
+        <p>Announce the base64 itself. There are no alt texts to write and none to get wrong.</p>
+      </div>
+      <div class="step">
+        <span class="k">Everything else</span>
+        <p>Diffs, logs, <code>curl</code>, a text field, a tool that has never heard of this font.
+        The bytes never changed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <p class="eyebrow">Using it</p>
     <h2>One file, no hosting.</h2>
     <div class="stack" style="margin-top:24px">
@@ -603,6 +672,42 @@ footer {
     b.addEventListener('click', function () {
       applyTheme(b.getAttribute('data-theme-set'));
     });
+  });
+
+  var symbols = document.getElementById('sf-degrade-symbols');
+  var copyButton = document.getElementById('sf-copy');
+  var copyStatus = document.getElementById('sf-copy-status');
+
+  function selectSymbols() {
+    var range = document.createRange();
+    range.selectNodeContents(symbols);
+    var selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  function showCopied(text) {
+    copyStatus.innerHTML = 'On your clipboard: <b></b>';
+    copyStatus.querySelector('b').textContent = text;
+  }
+
+  copyButton.addEventListener('click', function () {
+    var text = symbols.textContent;
+    // Clipboard access is refused outright in plenty of contexts -- an iframe
+    // without permission, a page served over http. Selecting the text is the
+    // honest fallback: the point being demonstrated is that it is only text.
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        function () { showCopied(text); },
+        function () {
+          selectSymbols();
+          copyStatus.textContent = 'Selected — press Ctrl+C. It is only text.';
+        }
+      );
+    } else {
+      selectSymbols();
+      copyStatus.textContent = 'Selected — press Ctrl+C. It is only text.';
+    }
   });
 
   var button = document.getElementById('sf-grey');

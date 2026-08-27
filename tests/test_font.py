@@ -378,7 +378,35 @@ def test_page_teaches_the_spoken_names(pages_html):
         assert f'<span class="word">{word}</span>' in pages_html
 
 
-# --- 10. reproducibility ------------------------------------------------------
+# --- 10. graceful degradation ------------------------------------------------
+
+
+def test_page_shows_the_same_characters_with_and_without_the_font(pages_html):
+    """The claim is that the text underneath is ordinary base64. The two rows
+    have to be character-identical or the demonstration is a lie."""
+    styled = re.search(r'id="sf-degrade-symbols"[^>]*>([^<]+)<', pages_html).group(1)
+    plain = re.search(r'class="text plain">([^<]+)<', pages_html).group(1)
+    assert styled == plain
+    assert base64.b64decode(styled)  # and it is real base64, not a lookalike
+    assert set(styled) <= set(BASE64_ALPHABET + "=")
+
+
+def test_copy_falls_back_when_the_clipboard_is_refused(pages_html):
+    """Clipboard access is refused in plenty of contexts, an iframe without
+    permission among them. Selecting the text still makes the point."""
+    assert "navigator.clipboard.writeText" in pages_html
+    assert "getSelection" in pages_html
+    assert 'aria-live="polite"' in pages_html
+
+
+def test_the_font_declares_a_real_fallback_stack():
+    """Whatever the page says, the shipped stylesheet has to degrade too."""
+    css = (DIST_DIR / "sixty-four.css").read_text(encoding="utf-8")
+    family = re.search(r"\.sixty-four \{[^}]*font-family:([^;]+);", css).group(1)
+    assert "monospace" in family
+
+
+# --- 11. reproducibility ------------------------------------------------------
 
 
 def test_two_builds_produce_byte_identical_fonts(tmp_path):
