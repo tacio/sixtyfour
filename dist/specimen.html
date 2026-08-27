@@ -42,6 +42,16 @@
   --rule:   #E2E0D9;
   --blue:   #1B4FD8;
   --red:    #D42A20;
+
+  /* The both-grounds panel shows the light and the dark rendering side by side,
+     so its colours are deliberately fixed rather than following the theme --
+     otherwise half the demonstration would always be the half you can see. */
+  --lit-bg:   #FBFAF7;
+  --lit-fg:   #1A1C22;
+  --lit-rule: #E2E0D9;
+  --dim-bg:   #121419;
+  --dim-fg:   #ECEBE6;
+  --dim-rule: #2A2E37;
 }
 :root:not([data-theme="light"]) {
   color-scheme: light;
@@ -190,6 +200,40 @@ button.toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper)
 
 .desaturated { filter: grayscale(1) contrast(1.08); }
 
+.switch { display: inline-flex; gap: 0; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; }
+.switch button {
+  font: inherit; font-size: .78rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  padding: 6px 14px; border: 0; cursor: pointer;
+  color: var(--muted); background: var(--raised);
+  transition: color .12s ease, background .12s ease;
+}
+.switch button + button { border-left: 1px solid var(--rule); }
+.switch button:hover { color: var(--ink); }
+.switch button:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+.switch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+/* --- both grounds -------------------------------------------------------- */
+
+.grounds { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.ground { border-radius: 5px; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.ground-lit { background: var(--lit-bg); color: var(--lit-fg); border: 1px solid var(--lit-rule); }
+.ground-dim { background: var(--dim-bg); color: var(--dim-fg); border: 1px solid var(--dim-rule); }
+.ground .tag {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; opacity: .6;
+}
+.ground .strip { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.2; overflow-x: auto; }
+.ground .tiers { display: flex; gap: 12px; flex-wrap: wrap; }
+.ground .tier { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1 1 60px; }
+.ground .tier .glyph { font-size: 44px; line-height: 1; }
+.ground .tier .name {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; opacity: .6;
+  text-align: center;
+}
+
+
 /* --- encoder ------------------------------------------------------------- */
 
 .encoder { display: grid; gap: 16px; }
@@ -276,6 +320,11 @@ footer {
   * { transition: none !important; animation: none !important; }
 }
 
+/* The page-level palette rule matches these on specificity, so raise them above
+   it: each card keeps its own palette whatever theme the page is in. */
+:root .ground-lit .sixty-four { font-palette: normal; }
+:root .ground-dim .sixty-four { font-palette: --sf-dark; }
+
 </style>
 
 <div class="wrap">
@@ -292,6 +341,11 @@ footer {
       </div>
       <div class="hero-strip sixty-four" data-desaturable>U2l4dHkgRm91ciBtYWtlcyBiYXNlNjQgbGVnaWJsZS4=</div>
       <div class="byline">
+        <span class="switch" role="group" aria-label="Page theme">
+          <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+          <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+          <button type="button" data-theme-set="auto" aria-pressed="false">Auto</button>
+        </span>
         <span><b>64</b> symbols</span>
         <span><b>16</b> shapes &times; <b>4</b> tiers</span>
         <span><b>COLR</b> colour, with outline fallback</span>
@@ -330,6 +384,17 @@ footer {
       <span class="eyebrow" style="margin:0">Hatch alone still separates all four tiers</span>
     </div>
     <div data-desaturable><div class="matrix-scroll"><table class="matrix"><thead><tr><th class="row-head"></th><th>Cross</th><th>Circle</th><th>Triangle</th><th>Square</th><th>Clubs</th><th>Diamonds</th><th>Hearts</th><th>Spades</th><th>Drop</th><th>Flame</th><th>Cloud</th><th>Ingot</th><th>Mushroom</th><th>Flower</th><th>Star</th><th>Moon</th></tr></thead><tbody><tr><th class="row-head">White<br>No fill</th><td><div class="cell" tabindex="0" title="A = 0 · Shapes / Cross · White / No fill"><span class="sym sixty-four">A</span><span class="meta"><b>A</b> 0</span></div></td><td><div class="cell" tabindex="0" title="B = 1 · Shapes / Circle · White / No fill"><span class="sym sixty-four">B</span><span class="meta"><b>B</b> 1</span></div></td><td><div class="cell" tabindex="0" title="C = 2 · Shapes / Triangle · White / No fill"><span class="sym sixty-four">C</span><span class="meta"><b>C</b> 2</span></div></td><td><div class="cell" tabindex="0" title="D = 3 · Shapes / Square · White / No fill"><span class="sym sixty-four">D</span><span class="meta"><b>D</b> 3</span></div></td><td><div class="cell" tabindex="0" title="E = 4 · Suits / Clubs · White / No fill"><span class="sym sixty-four">E</span><span class="meta"><b>E</b> 4</span></div></td><td><div class="cell" tabindex="0" title="F = 5 · Suits / Diamonds · White / No fill"><span class="sym sixty-four">F</span><span class="meta"><b>F</b> 5</span></div></td><td><div class="cell" tabindex="0" title="G = 6 · Suits / Hearts · White / No fill"><span class="sym sixty-four">G</span><span class="meta"><b>G</b> 6</span></div></td><td><div class="cell" tabindex="0" title="H = 7 · Suits / Spades · White / No fill"><span class="sym sixty-four">H</span><span class="meta"><b>H</b> 7</span></div></td><td><div class="cell" tabindex="0" title="I = 8 · Elements / Drop · White / No fill"><span class="sym sixty-four">I</span><span class="meta"><b>I</b> 8</span></div></td><td><div class="cell" tabindex="0" title="J = 9 · Elements / Flame · White / No fill"><span class="sym sixty-four">J</span><span class="meta"><b>J</b> 9</span></div></td><td><div class="cell" tabindex="0" title="K = 10 · Elements / Cloud · White / No fill"><span class="sym sixty-four">K</span><span class="meta"><b>K</b> 10</span></div></td><td><div class="cell" tabindex="0" title="L = 11 · Elements / Ingot · White / No fill"><span class="sym sixty-four">L</span><span class="meta"><b>L</b> 11</span></div></td><td><div class="cell" tabindex="0" title="M = 12 · Powers / Mushroom · White / No fill"><span class="sym sixty-four">M</span><span class="meta"><b>M</b> 12</span></div></td><td><div class="cell" tabindex="0" title="N = 13 · Powers / Flower · White / No fill"><span class="sym sixty-four">N</span><span class="meta"><b>N</b> 13</span></div></td><td><div class="cell" tabindex="0" title="O = 14 · Powers / Star · White / No fill"><span class="sym sixty-four">O</span><span class="meta"><b>O</b> 14</span></div></td><td><div class="cell" tabindex="0" title="P = 15 · Powers / Moon · White / No fill"><span class="sym sixty-four">P</span><span class="meta"><b>P</b> 15</span></div></td></tr><tr><th class="row-head">Black<br>Total fill</th><td><div class="cell" tabindex="0" title="Q = 16 · Shapes / Cross · Black / Total fill"><span class="sym sixty-four">Q</span><span class="meta"><b>Q</b> 16</span></div></td><td><div class="cell" tabindex="0" title="R = 17 · Shapes / Circle · Black / Total fill"><span class="sym sixty-four">R</span><span class="meta"><b>R</b> 17</span></div></td><td><div class="cell" tabindex="0" title="S = 18 · Shapes / Triangle · Black / Total fill"><span class="sym sixty-four">S</span><span class="meta"><b>S</b> 18</span></div></td><td><div class="cell" tabindex="0" title="T = 19 · Shapes / Square · Black / Total fill"><span class="sym sixty-four">T</span><span class="meta"><b>T</b> 19</span></div></td><td><div class="cell" tabindex="0" title="U = 20 · Suits / Clubs · Black / Total fill"><span class="sym sixty-four">U</span><span class="meta"><b>U</b> 20</span></div></td><td><div class="cell" tabindex="0" title="V = 21 · Suits / Diamonds · Black / Total fill"><span class="sym sixty-four">V</span><span class="meta"><b>V</b> 21</span></div></td><td><div class="cell" tabindex="0" title="W = 22 · Suits / Hearts · Black / Total fill"><span class="sym sixty-four">W</span><span class="meta"><b>W</b> 22</span></div></td><td><div class="cell" tabindex="0" title="X = 23 · Suits / Spades · Black / Total fill"><span class="sym sixty-four">X</span><span class="meta"><b>X</b> 23</span></div></td><td><div class="cell" tabindex="0" title="Y = 24 · Elements / Drop · Black / Total fill"><span class="sym sixty-four">Y</span><span class="meta"><b>Y</b> 24</span></div></td><td><div class="cell" tabindex="0" title="Z = 25 · Elements / Flame · Black / Total fill"><span class="sym sixty-four">Z</span><span class="meta"><b>Z</b> 25</span></div></td><td><div class="cell" tabindex="0" title="a = 26 · Elements / Cloud · Black / Total fill"><span class="sym sixty-four">a</span><span class="meta"><b>a</b> 26</span></div></td><td><div class="cell" tabindex="0" title="b = 27 · Elements / Ingot · Black / Total fill"><span class="sym sixty-four">b</span><span class="meta"><b>b</b> 27</span></div></td><td><div class="cell" tabindex="0" title="c = 28 · Powers / Mushroom · Black / Total fill"><span class="sym sixty-four">c</span><span class="meta"><b>c</b> 28</span></div></td><td><div class="cell" tabindex="0" title="d = 29 · Powers / Flower · Black / Total fill"><span class="sym sixty-four">d</span><span class="meta"><b>d</b> 29</span></div></td><td><div class="cell" tabindex="0" title="e = 30 · Powers / Star · Black / Total fill"><span class="sym sixty-four">e</span><span class="meta"><b>e</b> 30</span></div></td><td><div class="cell" tabindex="0" title="f = 31 · Powers / Moon · Black / Total fill"><span class="sym sixty-four">f</span><span class="meta"><b>f</b> 31</span></div></td></tr><tr><th class="row-head">Blue<br>Dots</th><td><div class="cell" tabindex="0" title="g = 32 · Shapes / Cross · Blue / Dots"><span class="sym sixty-four">g</span><span class="meta"><b>g</b> 32</span></div></td><td><div class="cell" tabindex="0" title="h = 33 · Shapes / Circle · Blue / Dots"><span class="sym sixty-four">h</span><span class="meta"><b>h</b> 33</span></div></td><td><div class="cell" tabindex="0" title="i = 34 · Shapes / Triangle · Blue / Dots"><span class="sym sixty-four">i</span><span class="meta"><b>i</b> 34</span></div></td><td><div class="cell" tabindex="0" title="j = 35 · Shapes / Square · Blue / Dots"><span class="sym sixty-four">j</span><span class="meta"><b>j</b> 35</span></div></td><td><div class="cell" tabindex="0" title="k = 36 · Suits / Clubs · Blue / Dots"><span class="sym sixty-four">k</span><span class="meta"><b>k</b> 36</span></div></td><td><div class="cell" tabindex="0" title="l = 37 · Suits / Diamonds · Blue / Dots"><span class="sym sixty-four">l</span><span class="meta"><b>l</b> 37</span></div></td><td><div class="cell" tabindex="0" title="m = 38 · Suits / Hearts · Blue / Dots"><span class="sym sixty-four">m</span><span class="meta"><b>m</b> 38</span></div></td><td><div class="cell" tabindex="0" title="n = 39 · Suits / Spades · Blue / Dots"><span class="sym sixty-four">n</span><span class="meta"><b>n</b> 39</span></div></td><td><div class="cell" tabindex="0" title="o = 40 · Elements / Drop · Blue / Dots"><span class="sym sixty-four">o</span><span class="meta"><b>o</b> 40</span></div></td><td><div class="cell" tabindex="0" title="p = 41 · Elements / Flame · Blue / Dots"><span class="sym sixty-four">p</span><span class="meta"><b>p</b> 41</span></div></td><td><div class="cell" tabindex="0" title="q = 42 · Elements / Cloud · Blue / Dots"><span class="sym sixty-four">q</span><span class="meta"><b>q</b> 42</span></div></td><td><div class="cell" tabindex="0" title="r = 43 · Elements / Ingot · Blue / Dots"><span class="sym sixty-four">r</span><span class="meta"><b>r</b> 43</span></div></td><td><div class="cell" tabindex="0" title="s = 44 · Powers / Mushroom · Blue / Dots"><span class="sym sixty-four">s</span><span class="meta"><b>s</b> 44</span></div></td><td><div class="cell" tabindex="0" title="t = 45 · Powers / Flower · Blue / Dots"><span class="sym sixty-four">t</span><span class="meta"><b>t</b> 45</span></div></td><td><div class="cell" tabindex="0" title="u = 46 · Powers / Star · Blue / Dots"><span class="sym sixty-four">u</span><span class="meta"><b>u</b> 46</span></div></td><td><div class="cell" tabindex="0" title="v = 47 · Powers / Moon · Blue / Dots"><span class="sym sixty-four">v</span><span class="meta"><b>v</b> 47</span></div></td></tr><tr><th class="row-head">Red<br>Line</th><td><div class="cell" tabindex="0" title="w = 48 · Shapes / Cross · Red / Line"><span class="sym sixty-four">w</span><span class="meta"><b>w</b> 48</span></div></td><td><div class="cell" tabindex="0" title="x = 49 · Shapes / Circle · Red / Line"><span class="sym sixty-four">x</span><span class="meta"><b>x</b> 49</span></div></td><td><div class="cell" tabindex="0" title="y = 50 · Shapes / Triangle · Red / Line"><span class="sym sixty-four">y</span><span class="meta"><b>y</b> 50</span></div></td><td><div class="cell" tabindex="0" title="z = 51 · Shapes / Square · Red / Line"><span class="sym sixty-four">z</span><span class="meta"><b>z</b> 51</span></div></td><td><div class="cell" tabindex="0" title="0 = 52 · Suits / Clubs · Red / Line"><span class="sym sixty-four">0</span><span class="meta"><b>0</b> 52</span></div></td><td><div class="cell" tabindex="0" title="1 = 53 · Suits / Diamonds · Red / Line"><span class="sym sixty-four">1</span><span class="meta"><b>1</b> 53</span></div></td><td><div class="cell" tabindex="0" title="2 = 54 · Suits / Hearts · Red / Line"><span class="sym sixty-four">2</span><span class="meta"><b>2</b> 54</span></div></td><td><div class="cell" tabindex="0" title="3 = 55 · Suits / Spades · Red / Line"><span class="sym sixty-four">3</span><span class="meta"><b>3</b> 55</span></div></td><td><div class="cell" tabindex="0" title="4 = 56 · Elements / Drop · Red / Line"><span class="sym sixty-four">4</span><span class="meta"><b>4</b> 56</span></div></td><td><div class="cell" tabindex="0" title="5 = 57 · Elements / Flame · Red / Line"><span class="sym sixty-four">5</span><span class="meta"><b>5</b> 57</span></div></td><td><div class="cell" tabindex="0" title="6 = 58 · Elements / Cloud · Red / Line"><span class="sym sixty-four">6</span><span class="meta"><b>6</b> 58</span></div></td><td><div class="cell" tabindex="0" title="7 = 59 · Elements / Ingot · Red / Line"><span class="sym sixty-four">7</span><span class="meta"><b>7</b> 59</span></div></td><td><div class="cell" tabindex="0" title="8 = 60 · Powers / Mushroom · Red / Line"><span class="sym sixty-four">8</span><span class="meta"><b>8</b> 60</span></div></td><td><div class="cell" tabindex="0" title="9 = 61 · Powers / Flower · Red / Line"><span class="sym sixty-four">9</span><span class="meta"><b>9</b> 61</span></div></td><td><div class="cell" tabindex="0" title="+ = 62 · Powers / Star · Red / Line"><span class="sym sixty-four">+</span><span class="meta"><b>+</b> 62</span></div></td><td><div class="cell" tabindex="0" title="/ = 63 · Powers / Moon · Red / Line"><span class="sym sixty-four">/</span><span class="meta"><b>/</b> 63</span></div></td></tr></tbody></table></div></div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Light and dark</p>
+    <h2>Legible on either ground.</h2>
+    <p class="lede" style="margin-top:14px">The empty and solid tiers paint with the text colour
+    rather than a stored one, so they invert with the page instead of vanishing into it &mdash;
+    which is why a solid symbol reads black on white and white on black. The dotted and striped
+    tiers switch to a lighter blue and red on dark grounds. Both renderings are shown here at once,
+    whichever theme you happen to be reading in.</p>
+    <div style="margin-top:28px" data-desaturable><div class="grounds"><div class="ground ground-lit"><span class="tag">Light ground</span><div class="strip sixty-four">U2l4dHkgRm91ci</div><div class="tiers"><div class="tier"><span class="glyph sixty-four">B</span><span class="name">No fill</span></div><div class="tier"><span class="glyph sixty-four">R</span><span class="name">Total fill</span></div><div class="tier"><span class="glyph sixty-four">h</span><span class="name">Dots</span></div><div class="tier"><span class="glyph sixty-four">x</span><span class="name">Line</span></div></div></div><div class="ground ground-dim"><span class="tag">Dark ground</span><div class="strip sixty-four">U2l4dHkgRm91ci</div><div class="tiers"><div class="tier"><span class="glyph sixty-four">B</span><span class="name">No fill</span></div><div class="tier"><span class="glyph sixty-four">R</span><span class="name">Total fill</span></div><div class="tier"><span class="glyph sixty-four">h</span><span class="name">Dots</span></div><div class="tier"><span class="glyph sixty-four">x</span><span class="name">Line</span></div></div></div></div></div>
   </section>
 
   <section>
@@ -416,6 +481,35 @@ footer {
 
   input.addEventListener('input', update);
   update();
+
+  var root = document.documentElement;
+  var themeButtons = Array.prototype.slice.call(
+    document.querySelectorAll('[data-theme-set]')
+  );
+
+  function applyTheme(mode) {
+    if (mode === 'auto') {
+      root.removeAttribute('data-theme');
+    } else {
+      root.setAttribute('data-theme', mode);
+    }
+    themeButtons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === mode));
+    });
+    try { localStorage.setItem('sixty-four-theme', mode); } catch (e) { /* private mode */ }
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem('sixty-four-theme'); } catch (e) { /* private mode */ }
+  // With nothing stored, follow whatever the host already stamped; an unstamped
+  // root means the viewer is on system preference, which is 'auto'.
+  applyTheme(saved || root.getAttribute('data-theme') || 'auto');
+
+  themeButtons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      applyTheme(b.getAttribute('data-theme-set'));
+    });
+  });
 
   var button = document.getElementById('sf-grey');
   button.addEventListener('click', function () {

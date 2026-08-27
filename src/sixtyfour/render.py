@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import io
 from pathlib import Path
 
+from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw, ImageFont
 
-from .spec import BASE64_ALPHABET, FILLS, SILHOUETTES
+from .spec import BASE64_ALPHABET, FILLS, SILHOUETTES, TABLE
 
 
 def load(font_path: Path, size: int) -> ImageFont.FreeTypeFont:
@@ -73,3 +75,45 @@ def sample_line(font_path: Path, text: str, size: int, color: bool = True) -> Im
         (0, 0), text, font=font, fill=(0, 0, 0), embedded_color=color
     )
     return image
+
+
+def _with_palette(font_path: Path, index: int) -> io.BytesIO:
+    """A copy of the font with CPAL palette `index` moved to the front.
+
+    FreeType renders palette 0 and offers no way to pick another, so seeing what
+    the dark palette actually looks like means promoting it first.
+    """
+    font = TTFont(font_path)
+    palettes = font["CPAL"].palettes
+    palettes.insert(0, palettes.pop(index))
+    buffer = io.BytesIO()
+    font.save(buffer)
+    buffer.seek(0)
+    return buffer
+
+
+def grounds_sheet(font_path: Path, size: int = 54, pad: int = 22) -> Image.Image:
+    """The same symbols on a light and a dark ground, side by side.
+
+    The empty and solid tiers paint with the text colour, so they invert with
+    the ground; the dotted and striped tiers move to the second CPAL palette.
+    Showing both at once is the only way a reader in one theme can see the other.
+    """
+    sample = "".join(BASE64_ALPHABET[FILLS.index(f) * 16 + i] for i in range(4) for f in FILLS)
+    grounds = [
+        ("Light ground", ImageFont.truetype(str(font_path), size), "#FBFAF7", "#1A1C22"),
+        ("Dark ground", ImageFont.truetype(_with_palette(font_path, 1), size), "#121419", "#ECEBE6"),
+    ]
+    label = ImageFont.load_default(13)
+    row_h = size + 40
+    width = size * len(sample) + pad * 2
+    sheet = Image.new("RGB", (width, row_h * len(grounds)), "#FFFFFF")
+    draw = ImageDraw.Draw(sheet)
+
+    y = 0
+    for name, font, background, foreground in grounds:
+        draw.rectangle([0, y, width, y + row_h], fill=background)
+        draw.text((pad, y + 8), name.upper(), font=label, fill=foreground)
+        draw.text((pad, y + 26), sample, font=font, fill=foreground, embedded_color=True)
+        y += row_h
+    return sheet

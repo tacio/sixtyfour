@@ -275,6 +275,52 @@ def test_page_defines_every_colour_token_outside_the_dark_blocks(pages_html):
     assert defined_in_dark - root - {"--sf-dark"} == set()
 
 
+def test_page_offers_an_explicit_theme_choice(pages_html):
+    """The page follows the viewer's theme, which means a reader in dark mode
+    never sees the light rendering unless they can ask for it."""
+    modes = set(re.findall(r'data-theme-set="([a-z]+)"', pages_html))
+    assert modes == {"light", "dark", "auto"}
+
+
+def test_both_grounds_are_shown_at_once(pages_html):
+    assert 'class="ground ground-lit"' in pages_html
+    assert 'class="ground ground-dim"' in pages_html
+
+
+def test_the_grounds_panel_does_not_follow_the_theme(pages_html):
+    """Half the demonstration would always be invisible if these tracked the
+    page theme, so their colours are pinned and their palettes forced."""
+    style = "\n".join(re.findall(r"<style>(.*?)</style>", pages_html, re.S))
+    root = re.search(r":root\s*\{(.*?)\}", style, re.S).group(1)
+    fixed = {"--lit-bg", "--lit-fg", "--dim-bg", "--dim-fg"}
+    assert fixed <= set(re.findall(r"(--[a-z-]+)\s*:", root))
+
+    theme_blocks = re.findall(
+        r'(?:@media \(prefers-color-scheme: dark\)|:root\[data-theme="[a-z]+"\])\s*\{(.*?)\n\}',
+        style,
+        re.S,
+    )
+    for token in fixed:
+        assert not any(token in block for block in theme_blocks), f"{token} is theme-dependent"
+
+    assert ":root .ground-lit .sixty-four { font-palette: normal; }" in style
+    assert ":root .ground-dim .sixty-four { font-palette: --sf-dark; }" in style
+
+
+def test_browser_storage_access_is_guarded(pages_html):
+    """localStorage throws outright in some contexts, and the page has to render
+    correctly with nothing stored."""
+    for access in re.finditer(r"localStorage\.\w+\([^)]*\)", pages_html):
+        line = pages_html[: access.end()].rsplit("\n", 1)[-1]
+        assert line.lstrip().startswith("try {"), f"unguarded: {line.strip()}"
+
+
+def test_no_unsubstituted_template_placeholders(pages_html):
+    """_STYLE is spliced into an f-string as a value, so a placeholder written
+    inside it is emitted literally rather than substituted."""
+    assert not re.search(r"\{[A-Z_]{3,}\}", pages_html)
+
+
 def test_artifact_variant_offers_no_downloads():
     """An Artifact viewer is sandboxed against downloads the page starts itself,
     so the section must never reach that build."""

@@ -58,8 +58,13 @@ def build(
     written += web.write_all(dist_dir, color_woff2, mono_woff2)
 
     specimen_png = dist_dir / "specimen.png"
-    render.contact_sheet(dist_dir / f"{COLOR_STEM}.ttf", cell=104, color=True).save(specimen_png)
+    color_ttf = dist_dir / f"{COLOR_STEM}.ttf"
+    render.contact_sheet(color_ttf, cell=104, color=True).save(specimen_png)
     written.append(specimen_png)
+
+    grounds_png = dist_dir / "grounds.png"
+    render.grounds_sheet(color_ttf).save(grounds_png)
+    written.append(grounds_png)
 
     written += web.write_pages(docs_dir, dist_dir)
     return written

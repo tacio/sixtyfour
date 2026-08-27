@@ -80,6 +80,16 @@ _STYLE = """
   --rule:   #E2E0D9;
   --blue:   #1B4FD8;
   --red:    #D42A20;
+
+  /* The both-grounds panel shows the light and the dark rendering side by side,
+     so its colours are deliberately fixed rather than following the theme --
+     otherwise half the demonstration would always be the half you can see. */
+  --lit-bg:   #FBFAF7;
+  --lit-fg:   #1A1C22;
+  --lit-rule: #E2E0D9;
+  --dim-bg:   #121419;
+  --dim-fg:   #ECEBE6;
+  --dim-rule: #2A2E37;
 }
 :root:not([data-theme="light"]) {
   color-scheme: light;
@@ -228,6 +238,40 @@ button.toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper)
 
 .desaturated { filter: grayscale(1) contrast(1.08); }
 
+.switch { display: inline-flex; gap: 0; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; }
+.switch button {
+  font: inherit; font-size: .78rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  padding: 6px 14px; border: 0; cursor: pointer;
+  color: var(--muted); background: var(--raised);
+  transition: color .12s ease, background .12s ease;
+}
+.switch button + button { border-left: 1px solid var(--rule); }
+.switch button:hover { color: var(--ink); }
+.switch button:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+.switch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+/* --- both grounds -------------------------------------------------------- */
+
+.grounds { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.ground { border-radius: 5px; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.ground-lit { background: var(--lit-bg); color: var(--lit-fg); border: 1px solid var(--lit-rule); }
+.ground-dim { background: var(--dim-bg); color: var(--dim-fg); border: 1px solid var(--dim-rule); }
+.ground .tag {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; opacity: .6;
+}
+.ground .strip { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.2; overflow-x: auto; }
+.ground .tiers { display: flex; gap: 12px; flex-wrap: wrap; }
+.ground .tier { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1 1 60px; }
+.ground .tier .glyph { font-size: 44px; line-height: 1; }
+.ground .tier .name {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; opacity: .6;
+  text-align: center;
+}
+
+
 /* --- encoder ------------------------------------------------------------- */
 
 .encoder { display: grid; gap: 16px; }
@@ -313,6 +357,11 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+""" + f"""
+/* The page-level palette rule matches these on specificity, so raise them above
+   it: each card keeps its own palette whatever theme the page is in. */
+:root .ground-lit .{CSS_CLASS} {{ font-palette: normal; }}
+:root .ground-dim .{CSS_CLASS} {{ font-palette: --sf-dark; }}
 """
 
 
@@ -465,6 +514,34 @@ def _downloads(asset_dir: Path) -> str:
     )
 
 
+def _ground_card(kind: str, label: str, sample: str) -> str:
+    """One side of the both-grounds panel."""
+    tiers = []
+    for fill in FILLS:
+        entry = TABLE[FILLS.index(fill) * 16 + 1]  # Circle, so only the tier varies
+        tiers.append(
+            f'<div class="tier"><span class="glyph {CSS_CLASS}">{html.escape(entry.char)}</span>'
+            f'<span class="name">{html.escape(entry.hatch_name)}</span></div>'
+        )
+    return (
+        f'<div class="ground ground-{kind}">'
+        f'<span class="tag">{html.escape(label)}</span>'
+        f'<div class="strip {CSS_CLASS}">{html.escape(sample)}</div>'
+        f'<div class="tiers">{"".join(tiers)}</div>'
+        "</div>"
+    )
+
+
+def _grounds() -> str:
+    sample = _encoded_sample()[:14]
+    return (
+        '<div class="grounds">'
+        + _ground_card("lit", "Light ground", sample)
+        + _ground_card("dim", "Dark ground", sample)
+        + "</div>"
+    )
+
+
 def _script() -> str:
     return """
 (function () {
@@ -487,6 +564,35 @@ def _script() -> str:
 
   input.addEventListener('input', update);
   update();
+
+  var root = document.documentElement;
+  var themeButtons = Array.prototype.slice.call(
+    document.querySelectorAll('[data-theme-set]')
+  );
+
+  function applyTheme(mode) {
+    if (mode === 'auto') {
+      root.removeAttribute('data-theme');
+    } else {
+      root.setAttribute('data-theme', mode);
+    }
+    themeButtons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === mode));
+    });
+    try { localStorage.setItem('sixty-four-theme', mode); } catch (e) { /* private mode */ }
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem('sixty-four-theme'); } catch (e) { /* private mode */ }
+  // With nothing stored, follow whatever the host already stamped; an unstamped
+  // root means the viewer is on system preference, which is 'auto'.
+  applyTheme(saved || root.getAttribute('data-theme') || 'auto');
+
+  themeButtons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      applyTheme(b.getAttribute('data-theme-set'));
+    });
+  });
 
   var button = document.getElementById('sf-grey');
   button.addEventListener('click', function () {
@@ -554,6 +660,11 @@ def _body(woff2: Path, downloads: str = "") -> str:
       </div>
       <div class="hero-strip {CSS_CLASS}" data-desaturable>{html.escape(_encoded_sample())}</div>
       <div class="byline">
+        <span class="switch" role="group" aria-label="Page theme">
+          <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+          <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+          <button type="button" data-theme-set="auto" aria-pressed="false">Auto</button>
+        </span>
         <span><b>64</b> symbols</span>
         <span><b>16</b> shapes &times; <b>4</b> tiers</span>
         <span><b>COLR</b> colour, with outline fallback</span>
@@ -592,6 +703,17 @@ def _body(woff2: Path, downloads: str = "") -> str:
       <span class="eyebrow" style="margin:0">Hatch alone still separates all four tiers</span>
     </div>
     <div data-desaturable>{_matrix()}</div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Light and dark</p>
+    <h2>Legible on either ground.</h2>
+    <p class="lede" style="margin-top:14px">The empty and solid tiers paint with the text colour
+    rather than a stored one, so they invert with the page instead of vanishing into it &mdash;
+    which is why a solid symbol reads black on white and white on black. The dotted and striped
+    tiers switch to a lighter blue and red on dark grounds. Both renderings are shown here at once,
+    whichever theme you happen to be reading in.</p>
+    <div style="margin-top:28px" data-desaturable>{_grounds()}</div>
   </section>
 
   <section>
@@ -714,7 +836,10 @@ def write_all(out_dir: Path, color_woff2: Path, mono_woff2: Path) -> list[Path]:
 
 
 #: Everything the hosted site serves alongside the page itself.
-PAGES_ASSETS = [name for _, _, names in DOWNLOAD_BUNDLES for name in names] + ["specimen.png"]
+PAGES_ASSETS = [name for _, _, names in DOWNLOAD_BUNDLES for name in names] + [
+    "specimen.png",
+    "grounds.png",
+]
 
 
 def write_pages(docs_dir: Path, dist_dir: Path) -> list[Path]:
