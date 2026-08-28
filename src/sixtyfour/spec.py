@@ -29,12 +29,21 @@ PAD_CHAR = "="
 
 #: The four fill treatments, in value order. Index is `value // 16`.
 FILLS = ("none", "solid", "dots", "lines")
+#: The tier's written name, paired with its hatch. Tiers 2 and 3 are named for a
+#: hue because they store one; tiers 0 and 1 are named for their ink because they
+#: store nothing and paint with the text foreground. Calling them White and Black
+#: was true only of a light ground -- on a dark one the names came out inverted.
 FILL_LABELS = {
-    "none": ("White", "No fill"),
-    "solid": ("Black", "Total fill"),
+    "none": ("Blank", "No fill"),
+    "solid": ("Fill", "Total fill"),
     "dots": ("Blue", "Dots"),
     "lines": ("Red", "Line"),
 }
+
+#: The two tiers that carry a stored colour. The other two paint with the text
+#: foreground, so their tier name describes ink, not hue -- which is why they are
+#: called Blank and Fill rather than White and Black.
+COLOURED_FILLS = frozenset({"dots", "lines"})
 
 #: How a tier is said aloud. Deliberately shorter and plainer than the sheet's
 #: "No fill" / "Total fill" -- these are for dictating a string over a phone.
@@ -72,8 +81,14 @@ class Entry:
         return ord(self.char)
 
     @property
-    def color_name(self) -> str:
+    def tier_name(self) -> str:
+        """Blank, Fill, Blue or Red -- ink for the first two, hue for the last two."""
         return FILL_LABELS[self.fill][0]
+
+    @property
+    def has_colour(self) -> bool:
+        """Whether this tier stores a colour, as opposed to taking the text's."""
+        return self.fill in COLOURED_FILLS
 
     @property
     def hatch_name(self) -> str:
@@ -139,8 +154,8 @@ def check_against_tsv(path: Path | None = None) -> list[str]:
             problems.append(f"{where}: TSV class {row['Class']!r} != {entry.klass!r}")
         if row["Symbol"] != entry.symbol:
             problems.append(f"{where}: TSV symbol {row['Symbol']!r} != {entry.symbol!r}")
-        if row["Color"] != entry.color_name:
-            problems.append(f"{where}: TSV color {row['Color']!r} != {entry.color_name!r}")
+        if row["Tier"] != entry.tier_name:
+            problems.append(f"{where}: TSV tier {row['Tier']!r} != {entry.tier_name!r}")
         if row["Hatch"] != entry.hatch_name:
             problems.append(f"{where}: TSV hatch {row['Hatch']!r} != {entry.hatch_name!r}")
         if int(row["Unicode"], 16) != entry.codepoint:
@@ -158,7 +173,7 @@ def as_records() -> list[dict[str, object]]:
             "codepoint": f"U+{entry.codepoint:04X}",
             "class": entry.klass,
             "symbol": entry.symbol,
-            "color": entry.color_name,
+            "tier": entry.tier_name,
             "hatch": entry.hatch_name,
             "fill": entry.fill,
             "spoken": entry.spoken,

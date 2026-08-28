@@ -18,7 +18,7 @@ import pytest
 from fontTools.ttLib import TTFont
 from PIL import ImageChops, ImageStat
 
-from sixtyfour import glyphs, render, spec, web
+from sixtyfour import fontbuild, glyphs, render, spec, web
 from sixtyfour.cli import COLOR_STEM, DIST_DIR, DOCS_DIR, MONO_STEM
 from sixtyfour.spec import BASE64_ALPHABET, FILLS, SILHOUETTES, TABLE
 from sixtyfour.ufobuild import ADVANCE
@@ -117,6 +117,23 @@ def test_empty_and_solid_tiers_follow_the_text_colour(color_font):
             assert colour_ids == {0xFFFF}
         else:
             assert colour_ids != {0xFFFF}
+
+
+def test_only_the_tiers_that_store_a_colour_are_named_for_one():
+    """The naming must track the palette wiring, not a light background.
+
+    A tier painting with 0xFFFF has no colour of its own -- it is whatever the
+    text is -- so naming one White or Black states the opposite of what a reader
+    on a dark ground sees. Blank and Fill are named for their ink instead, and
+    this ties that decision to the font's actual palette indices so the two can
+    never drift apart again.
+    """
+    for entry in TABLE:
+        stores_a_colour = fontbuild.FILL_PALETTE_INDEX[entry.fill] != fontbuild.FOREGROUND
+        assert entry.has_colour is stores_a_colour, entry.char
+        if not entry.has_colour:
+            assert entry.tier_name not in {"White", "Black"}
+    assert {e.tier_name for e in TABLE if e.has_colour} == {"Blue", "Red"}
 
 
 def test_colour_font_keeps_fallback_outlines(color_font):

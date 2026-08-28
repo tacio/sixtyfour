@@ -416,6 +416,11 @@ table.full td.sym { font-size: 26px; line-height: 1; width: 1%; }
 table.full td.mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
 .swatch { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
 .swatch i { width: 9px; height: 9px; border-radius: 2px; border: 1px solid var(--rule); }
+/* Blank and Fill store no colour -- they paint with the text foreground. A chip
+   of a fixed colour would contradict its own label on one ground or the other,
+   so these two show the tier itself: hollow for Blank, inked for Fill. */
+.swatch i.hollow { background: transparent; border-color: currentColor; }
+.swatch i.inked { background: currentColor; border-color: currentColor; }
 
 footer {
   border-top: 1px solid var(--rule); padding-top: 28px;
@@ -434,21 +439,30 @@ footer {
 """
 
 
-def _swatch_colour(fill: str) -> str:
-    return {"none": "var(--ink)", "solid": "var(--ink)", "dots": "var(--blue)", "lines": "var(--red)"}[fill]
+def _tier_mark(entry) -> str:
+    """The reference table's tier chip.
+
+    Blue and Red are stored colours, so they get a chip of that colour. Blank and
+    Fill are not colours at all, so they get a mark that shows what the tier does
+    instead: an outline and a solid, both in the text colour they actually use.
+    """
+    if not entry.has_colour:
+        return '<i class="%s"></i>' % ("inked" if entry.fill == "solid" else "hollow")
+    colour = {"dots": "var(--blue)", "lines": "var(--red)"}[entry.fill]
+    return f'<i style="background:{colour}"></i>'
 
 
 def _matrix() -> str:
     heads = "".join(f"<th>{html.escape(name)}</th>" for name in SILHOUETTES)
     rows = []
     for fill_index, fill in enumerate(FILLS):
-        colour, hatch = TABLE[fill_index * 16].color_name, TABLE[fill_index * 16].hatch_name
+        tier, hatch = TABLE[fill_index * 16].tier_name, TABLE[fill_index * 16].hatch_name
         cells = []
         for column in range(16):
             entry = TABLE[fill_index * 16 + column]
             title = (
                 f"{entry.spoken} \u2014 {entry.char} = {entry.value} \u00b7 "
-                f"{entry.klass} \u00b7 {entry.color_name} / {entry.hatch_name}"
+                f"{entry.klass} \u00b7 {entry.tier_name} / {entry.hatch_name}"
             )
             cells.append(
                 f'<td><div class="cell" tabindex="0" title="{html.escape(title)}">'
@@ -457,7 +471,7 @@ def _matrix() -> str:
                 f"</div></td>"
             )
         rows.append(
-            f'<tr><th class="row-head">{html.escape(colour)}<br>{html.escape(hatch)}</th>'
+            f'<tr><th class="row-head">{html.escape(tier)}<br>{html.escape(hatch)}</th>'
             + "".join(cells)
             + "</tr>"
         )
@@ -482,8 +496,8 @@ def _full_table() -> str:
             f"<td>{html.escape(entry.klass)}</td>"
             f"<td>{html.escape(entry.symbol)}</td>"
             f"<td>{html.escape(entry.spoken)}</td>"
-            f'<td><span class="swatch"><i style="background:{_swatch_colour(entry.fill)}"></i>'
-            f"{html.escape(entry.color_name)}</span></td>"
+            f'<td><span class="swatch">{_tier_mark(entry)}'
+            f"{html.escape(entry.tier_name)}</span></td>"
             f"<td>{html.escape(entry.hatch_name)}</td>"
             f'<td class="mono">{alias_cell}</td>'
             f"</tr>"
@@ -492,7 +506,7 @@ def _full_table() -> str:
         f"<th>{h}</th>"
         for h in (
             "Symbol", "Char", "Value", "Codepoint", "Class", "Shape",
-            "Say it", "Colour", "Hatch", "URL-safe",
+            "Say it", "Tier", "Hatch", "URL-safe",
         )
     )
     return (
@@ -554,7 +568,7 @@ DOWNLOAD_BUNDLES: list[tuple[str, str, list[str]]] = [
     ),
     (
         "The alphabet as data",
-        "Character, value, class, shape, colour and hatch for all 64, for writing your "
+        "Character, value, class, shape, tier and hatch for all 64, for writing your "
         "own renderer.",
         ["mapping.json", "mapping.tsv"],
     ),
@@ -864,6 +878,10 @@ def _body(woff2: Path, mono_woff2: Path, downloads: str = "") -> str:
     which is why a solid symbol reads black on white and white on black. The dotted and striped
     tiers switch to a lighter blue and red on dark grounds. Both renderings are shown here at once,
     whichever theme you happen to be reading in.</p>
+    <p class="lede" style="margin-top:14px">Which is also why those two tiers are called
+    <b>Blank</b> and <b>Fill</b> rather than white and black. They hold no colour to be named
+    after &mdash; only Blue and Red do &mdash; and a tier named &ldquo;black&rdquo; would be
+    telling you the opposite of what you were looking at on half the pages it is read on.</p>
     <div style="margin-top:28px" data-desaturable>{_grounds()}</div>
   </section>
 
@@ -882,8 +900,8 @@ def _body(woff2: Path, mono_woff2: Path, downloads: str = "") -> str:
       </div>
       <div class="step">
         <span class="k">Texture</span>
-        <span class="v">{html.escape(walk.hatch_name)} &middot; {html.escape(walk.color_name)}</span>
-        <p>Tier {walk.value // 16} of 0&ndash;3. Colour and hatch say the same thing, so either one on its own is enough to read it.</p>
+        <span class="v">{html.escape(walk.hatch_name)} &middot; {html.escape(walk.tier_name)}</span>
+        <p>Tier {walk.value // 16} of 0&ndash;3. Tier and hatch say the same thing, so either one on its own is enough to read it.</p>
       </div>
       <div class="step">
         <span class="k">Therefore</span>

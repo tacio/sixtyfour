@@ -16,7 +16,7 @@ value = tier × 16 + class × 4 + shape
 
 | | 0 | 1 | 2 | 3 |
 |---|---|---|---|---|
-| **tier** (`value // 16`) | White / no fill | Black / total fill | Blue / dots | Red / lines |
+| **tier** (`value // 16`) | Blank / no fill | Fill / total fill | Blue / dots | Red / lines |
 | **class** (`value // 4 % 4`) | Shapes | Suits | Elements | Powers |
 | **shape** (`value % 4`) | — | — | — | — |
 | &nbsp;&nbsp;Shapes | Cross | Circle | Triangle | Square |
@@ -26,7 +26,7 @@ value = tier × 16 + class × 4 + shape
 
 So `A` = 0 is an empty cross, `Q` = 16 the solid cross, `g` = 32 the dotted cross, `w` = 48 the striped cross. Sixteen shapes, four tiers.
 
-The four tiers form an ink ramp — empty, lines, dots, solid — chosen so they stay tellable apart with the colour thrown away. That ordering is asserted in the test suite for every one of the sixteen shapes.
+The four tiers form an ink ramp — blank, lines, dots, fill — chosen so they stay tellable apart with the colour thrown away. That ordering is asserted in the test suite for every one of the sixteen shapes.
 
 ## Saying one out loud
 
@@ -34,7 +34,7 @@ Name the **shape, then the texture**. Four texture words cover every tier:
 
 | | blank | lines | dots | fill |
 |---|---|---|---|---|
-| tier | White / no fill | Red / lines | Blue / dots | Black / total fill |
+| tier | Blank / no fill | Red / lines | Blue / dots | Fill / total fill |
 
 So `A` is "cross blank", `V` is "diamonds fill", `q` is "air dots", `9` is "flower lines". Any of the sixty-four is two plain words, which is what makes a string dictatable down a phone line — nobody has to spell anything.
 
@@ -62,6 +62,8 @@ The font is a display layer and nothing else. That is the argument for doing thi
 ![The Shapes class on a light and a dark ground](dist/grounds.png)
 
 The empty and solid tiers paint with the **text foreground colour** rather than a stored one, so a solid symbol reads black on white and white on black instead of vanishing into the page. The dotted and striped tiers carry a second CPAL palette that lightens the blue and red for dark grounds; `sixty-four.css` selects it under `prefers-color-scheme: dark`, and any app can ask for it by name.
+
+This is why the first two tiers are named **Blank** and **Fill** and not white and black. Only Blue and Red hold a colour; the other two hold an amount of ink and take their hue from the text around them. A tier called "black" would name the one thing it is guaranteed *not* to be on a dark page, so the tier axis names ink, and only the two tiers that store a colour are named for one.
 
 The specimen page shows both renderings side by side and has a Light / Dark / Auto control, so a reader in one theme can still see the other.
 

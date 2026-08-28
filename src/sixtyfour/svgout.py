@@ -43,7 +43,7 @@ def _escape(text: str) -> str:
 
 
 def entry_svg(entry: Entry) -> str:
-    title = f"{entry.char} = {entry.value} : {entry.symbol} / {entry.color_name} / {entry.hatch_name}"
+    title = f"{entry.char} = {entry.value} : {entry.symbol} / {entry.tier_name} / {entry.hatch_name}"
     return render(glyphs.build_entry(entry), title, FILL_COLOURS[entry.fill])
 
 
